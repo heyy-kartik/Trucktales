@@ -113,6 +113,10 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <div className="p-4 bg-red-500 text-blue-900 text-center font-bold">
+
+        Driver huu meai
+      </div>
       <NavigationBar />
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
       {/* Header - Cleaner + modern */}
