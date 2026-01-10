@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "XYS - Highway Monitoring System",
+  title: "Trucktales - Highway Monitoring System",
   description: "Real-time highway monitoring and truck tracking system",
 };
 
