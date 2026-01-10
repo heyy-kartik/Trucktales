@@ -98,7 +98,7 @@ export function MynaHero() {
               className="rounded-none hidden md:inline-flex bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
               asChild
             >
-              <a href="/dashboard">
+              <a href="/sign-up">
                 GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
               </a>
             </Button>
@@ -124,7 +124,7 @@ export function MynaHero() {
                     className="cursor-pointer rounded-none bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
                     asChild
                   >
-                    <a href="/dashboard">
+                    <a href="/sign-up">
                       GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
                     </a>
                   </Button>
@@ -213,7 +213,7 @@ export function MynaHero() {
                 className="cursor-pointer rounded-none mt-12 bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
                 asChild
               >
-                <a href="/dashboard">
+                <a href="/sign-up">
                   GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
                 </a>
               </Button>
