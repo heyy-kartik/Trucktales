@@ -1,4 +1,4 @@
-# XYS - Highway Monitoring System
+# Trucktales - Highway Monitoring System
 
 A full-stack Next.js 15 application for real-time highway monitoring, incident reporting, and truck tracking.
 
@@ -36,7 +36,7 @@ A full-stack Next.js 15 application for real-time highway monitoring, incident r
 ### Tech Stack
 - **Framework**: Next.js 15 with App Router
 - **Authentication**: Clerk
-- **Database & Real-time**: Convex
+- **Database & Real-time**: 
 - **AI/ML**: 
   - OpenAI Whisper (Speech-to-Text)
   - Google Gemini 1.5 (NLP & Information Extraction)
@@ -53,7 +53,7 @@ A full-stack Next.js 15 application for real-time highway monitoring, incident r
 - npm or yarn
 - Accounts and API keys for:
   - Clerk (authentication)
-  - Convex (database)
+  - Supabase (database)
   - Mapbox (maps and geocoding)
   - OpenAI (Whisper STT)
   - Google AI (Gemini)
@@ -85,9 +85,6 @@ Edit `.env.local` and fill in your API keys:
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 CLERK_SECRET_KEY=your_clerk_secret_key
 
-# Convex
-NEXT_PUBLIC_CONVEX_URL=your_convex_url
-CONVEX_DEPLOYMENT=your_convex_deployment
 
 # Mapbox
 NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_mapbox_public_token
@@ -110,13 +107,7 @@ INNGEST_SIGNING_KEY=your_inngest_signing_key
 
 # App URL
 NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
 
-4. **Set up Convex**
-```bash
-npx convex dev
-```
-This will initialize your Convex project and generate the necessary schema.
 
 5. **Run the development server**
 ```bash
@@ -141,10 +132,8 @@ xys/
 │   ├── MapboxDashboard.tsx     # Interactive map component
 │   ├── IncidentsList.tsx       # Incidents list view
 │   ├── Analytics.tsx           # Statistics dashboard
-│   └── ConvexClientProvider.tsx # Convex provider wrapper
-├── convex/
-│   ├── schema.ts               # Database schema
-│   └── incidents.ts            # Convex queries and mutations
+│   
+├──           #  
 ├── lib/
 │   ├── inngest/
 │   │   ├── client.ts           # Inngest client
@@ -186,7 +175,7 @@ Process audio reports or text transcripts to extract incident information.
 }
 ```
 
-## Convex Schema
+##  
 
 ### Incidents Table
 - `highway`: Highway name/number
@@ -218,10 +207,7 @@ Process audio reports or text transcripts to extract incident information.
 3. Configure environment variables
 4. Deploy
 
-### Convex Deployment
-```bash
-npx convex deploy
-```
+
 
 ### Inngest Configuration
 Configure your Inngest app to point to your deployed application's `/api/inngest` endpoint.
