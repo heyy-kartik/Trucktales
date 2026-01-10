@@ -16,6 +16,13 @@ interface IncidentEventData {
   longitude?: number;
 }
 
+interface TruckData {
+  truckId: string;
+  phoneNumber?: string;
+  latitude: number;
+  longitude: number;
+}
+
 export const handleHighSeverityIncident = inngest.createFunction(
   { id: "handle-high-severity-incident" },
   { event: "incident.high-severity" },
@@ -25,23 +32,23 @@ export const handleHighSeverityIncident = inngest.createFunction(
     // Step 1: Find nearby trucks
     const nearbyTrucks = await step.run("find-nearby-trucks", async () => {
       if (!incident.latitude || !incident.longitude) {
-        return [];
+        return [] as TruckData[];
       }
 
       // Call Convex to get nearby trucks
       const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
       if (!convexUrl) {
         console.error("Convex URL not configured");
-        return [];
+        return [] as TruckData[];
       }
 
       try {
         // In a real implementation, you'd call the Convex function
         // For now, we'll return a placeholder
-        return [];
+        return [] as TruckData[];
       } catch (error) {
         console.error("Failed to fetch nearby trucks:", error);
-        return [];
+        return [] as TruckData[];
       }
     });
 
@@ -55,7 +62,7 @@ export const handleHighSeverityIncident = inngest.createFunction(
       let failed = 0;
 
       for (const truck of nearbyTrucks) {
-        if (!truck.phoneNumber) continue;
+        if (!truck || !truck.phoneNumber) continue;
 
         try {
           const message = `HIGHWAY ALERT: ${incident.issue} on ${incident.highway} at KM ${incident.kilometer}. Please reroute if possible. Severity: ${incident.severity.toUpperCase()}`;

@@ -2,11 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const openai = process.env.OPENAI_API_KEY
+  ? new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    })
+  : null;
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+const genAI = process.env.GEMINI_API_KEY
+  ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+  : null;
 
 interface ExtractedData {
   highway?: string;
@@ -40,6 +44,10 @@ async function geocodeLocation(highway: string, kilometer: number) {
 
 // Extract information using Gemini
 async function extractInfoWithGemini(transcript: string): Promise<ExtractedData> {
+  if (!genAI) {
+    throw new Error("Gemini API key not configured");
+  }
+
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const prompt = `Extract the following information from this highway incident report:
@@ -87,6 +95,13 @@ export async function POST(request: NextRequest) {
 
     // If audio is provided, transcribe it with Whisper
     if (audioUrl || audioBase64) {
+      if (!openai) {
+        return NextResponse.json(
+          { error: "OpenAI API key not configured" },
+          { status: 500 }
+        );
+      }
+
       try {
         let audioData;
         
