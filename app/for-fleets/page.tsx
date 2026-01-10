@@ -5,7 +5,7 @@ import { Map, Zap, Users, ShieldCheck, LayoutDashboard } from 'lucide-react';
 import { NavigationBar } from "@/components/NavigationBar";
 
 const FleetManagementSection = () => {
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const features = [
     {

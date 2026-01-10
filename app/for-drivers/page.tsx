@@ -5,7 +5,7 @@ import { Mic, Globe, Bell, MapPin, Navigation, Users, FileCheck, UserPlus } from
 import { NavigationBar } from "@/components/NavigationBar";
 
 const DriversSection = () => {
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const features = [
     {
