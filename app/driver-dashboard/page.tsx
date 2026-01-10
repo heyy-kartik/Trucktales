@@ -11,6 +11,8 @@ import { QuickStats } from '@/components/driver/QuickStats';
 import { RealTimeLocation } from '@/components/driver/RealTimeLocation';
 import { MapPin, Clock, Truck, Package, IndianRupee, LocateFixed } from 'lucide-react';
 import DriverMap from '@/components/DriverMap';
+import { NavigationBar } from '@/components/NavigationBar';
+import { ClerkLoaded, UserButton } from '@clerk/nextjs';
 
 // Mock data for available requests
 const mockRequests = [
@@ -110,9 +112,11 @@ export default function DriverDashboardPage() {
           todaysTrips={3}
           todaysEarnings={4200}
           completedTrips={127}
-        />
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          />
+        </header>
+  
+        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Map Section */}
           <div className="lg:col-span-2 bg-white rounded-lg shadow p-4">
             <div className="h-96 rounded-lg overflow-hidden">
