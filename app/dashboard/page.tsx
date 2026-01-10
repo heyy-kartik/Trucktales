@@ -5,12 +5,9 @@ import { useState, useMemo } from "react";
 import MapboxDashboard from "@/components/MapboxDashboard";
 import IncidentsList from "@/components/IncidentsList";
 import Analytics from "@/components/Analytics";
-<<<<<<< HEAD
 import { NavigationBar } from "@/components/NavigationBar";
-=======
 import { Filter } from "lucide-react";
 import { ClerkLoaded, UserButton } from "@clerk/nextjs";
->>>>>>> 3b32b8ce2ed353775ea1aa8225acdae4fec5b8dd
 
 // Mock data for incidents
 const mockIncidents = [
@@ -115,10 +112,8 @@ export default function DashboardPage() {
   const trucks = mockTrucks;
 
   return (
-<<<<<<< HEAD
     <div className="min-h-screen bg-background">
       <NavigationBar />
-=======
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
       {/* Header - Cleaner + modern */}
       <header className="border-b bg-white/70 dark:bg-slate-900/70 backdrop-blur-md sticky top-0 z-30">
@@ -142,7 +137,6 @@ export default function DashboardPage() {
           </div>
         </div>
       </header>
->>>>>>> 3b32b8ce2ed353775ea1aa8225acdae4fec5b8dd
 
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
         <div className="grid gap-6 lg:gap-8 lg:grid-cols-[2fr_1fr]">
@@ -226,6 +220,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
+    </div>
     </div>
   );
 }
