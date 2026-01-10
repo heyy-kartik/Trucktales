@@ -1,0 +1,4 @@
+
+- POD history table with Shadcn data-table
+- Click to view details: photo, blockchain TX, payment status
+- Dispute resolution interface with immutable proof

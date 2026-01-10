@@ -1,0 +1,4 @@
+- Clerk phone auth, VAPI Hindi voice recording with waveform
+- Real-time Whisper transcription, send to /api/process-tale
+- Show extracted location on mini map, tale history list
+- Offline mode with queue sync, push notifications

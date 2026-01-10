@@ -1,0 +1,4 @@
+
+- PODRegistry with createPOD, verifyPOD, markAsPaid functions
+- Events for tracking, mappings for storage
+- Deploy to Polygon Mumbai testnet

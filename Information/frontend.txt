@@ -1,0 +1,4 @@
+- Camera/upload component with preview
+- Gemini Vision verification (check signature)
+- Loading states with progress indicators
+- Success screen with blockchain link + payment confirmation

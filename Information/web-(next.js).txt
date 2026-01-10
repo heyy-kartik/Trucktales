@@ -1,0 +1,3 @@
+- Mapbox dashboard with live truck pins, voice tale popups
+- Convex subscription for instant updates, filters, analytics
+- Tailwind v4 + Shadcn UI, responsive design

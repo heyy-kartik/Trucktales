@@ -1,0 +1,1 @@
+Create n8n workflow: Trigger on POD verified webhook, fetch shipment from Neon via tRPC, calculate amount (base + distance - penalties), initiate Razorpay UPI payout, update Prisma payment status, send SMS (Twilio), generate PDF invoice, store blockchain TX hash, handle retries on failure. Log all steps in Sentry.

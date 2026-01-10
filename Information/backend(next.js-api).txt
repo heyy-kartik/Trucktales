@@ -1,0 +1,3 @@
+- /api/process-tale: Whisper STT → Gemini NLP → extract highway/KM/issue/ETA
+- Geocode with Mapbox, store in Convex with real-time sync
+- Inngest job: if severity high, find nearby trucks, send SMS reroute
