@@ -1,0 +1,1 @@
+Create Expo app with VAPI integration for Hindi voice recording. Big mic button, waveform animation while recording, real-time Whisper transcription display. On stop: send to /api/process-tale, extract location with Gemini, show confirmation with map preview. Use Clerk auth. Store tales in Convex. Offline support with sync when online.

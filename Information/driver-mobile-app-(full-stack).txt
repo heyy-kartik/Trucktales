@@ -1,0 +1,2 @@
+
+Build Expo app with: Login (Clerk phone OTP), Active Trips list from tRPC API, Trip details with route map (Mapbox), Voice recording (VAPI Hindi STT), Tale history timeline, POD camera with AI verify, Earnings screen with blockchain links, Profile page. Use React Query for caching, offline-first with AsyncStorage, push notifications for alerts.

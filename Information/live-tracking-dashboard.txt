@@ -1,0 +1,1 @@
+Build Next.js 15 dashboard with Mapbox GL showing real-time truck locations. Use Convex for live updates, Tailwind v4 + Shadcn for UI. Display truck pins (green=on-time, red=delayed), voice tales as popups, and ETA predictions. Include filters for status/route. Add sidebar with active shipments list. Make it responsive and update every 5 seconds.

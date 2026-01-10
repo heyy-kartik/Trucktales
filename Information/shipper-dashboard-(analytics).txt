@@ -1,0 +1,1 @@
+Next.js dashboard with: Fleet map (Mapbox + Convex real-time), Shipment tracking table (Shadcn data-table), Individual shipment view with tale timeline, AI ETA predictions, Payment reconciliation interface, Analytics charts (Recharts): on-time %, fuel savings, cost reduction. Alert center for high-risk routes. Export reports as PDF.

@@ -1,0 +1,1 @@
+Create Inngest background job listening to tale.created events. Use Gemini + RAG to analyze patterns from Prisma/Neon DB. If risk > 0.7, find trucks within 50km using Mapbox, generate alternate routes, send SMS alerts via Twilio. Log predictions. Display prediction accuracy dashboard with Recharts. Update map with hazard zones.

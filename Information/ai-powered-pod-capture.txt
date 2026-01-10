@@ -1,0 +1,1 @@
+Build Next.js page with camera/upload for delivery proof. Use Gemini Vision to verify signature presence. Generate blockchain hash with ethers.js, store on Polygon Mumbai. Trigger n8n webhook for UPI payment via Razorpay. Show success with Polygonscan link and payment confirmation. Use Shadcn dialog for status updates.
