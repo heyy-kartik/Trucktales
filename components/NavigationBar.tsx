@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, Truck, ArrowRight } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { JSX } from "react";
+
 import { ModeToggle } from "@/components/mode-toggle";
 
 const navigationItems = [
@@ -19,7 +19,7 @@ export function NavigationBar(): React.ReactElement {
     <header className="sticky top-0 z-50 bg-background shadow-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <a href="#" className="flex items-center gap-2">
-          <Truck className="h-8 w-8 text-black" />
+          <Truck className="h-15 w-15 hover:bg-amber-50 bg-amber-50" />
           <span className="font-mono text-xl font-bold text-black">
             TruckTales
           </span>
