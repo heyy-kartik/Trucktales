@@ -19,7 +19,7 @@ import Link from "next/link";
 const navigationItems = [
   { title: "FEATURES", href: "#features" },
   { title: "HOW IT WORKS", href: "/how-it-works" },
-  { title: "FOR DRIVERS", href: "#" },
+  { title: "FOR DRIVERS", href: "/for-drivers" },
   { title: "FOR FLEETS", href: "#" },
 ];
 
