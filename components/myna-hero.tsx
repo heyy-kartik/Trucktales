@@ -103,6 +103,16 @@ export function MynaHero() {
                 GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
               </Link>
             </Button>
+            <Button
+              variant="default"
+              className="rounded-none hidden md:inline-flex bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
+              asChild
+            >
+              <Link href="/sign-in  ">
+                GET Login 
+                <ArrowRight className="ml-1 w-4 h-4" />
+              </Link>
+            </Button>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="md:hidden">
