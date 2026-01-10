@@ -28,10 +28,7 @@ const config: Config = {
   				DEFAULT: 'hsl(var(--secondary))',
   				foreground: 'hsl(var(--secondary-foreground))'
   			},
-  			muted: {
-  				DEFAULT: 'hsl(var(--muted))',
-  				foreground: 'hsl(var(--muted-foreground))'
-  			},
+  			muted: 'hsl(var(--muted))',
   			accent: {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))'
@@ -49,12 +46,31 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
+  			},
+  			brand: 'hsl(var(--brand))',
+  			'brand-foreground': 'hsl(var(--brand-foreground))',
+  			'muted-foreground': 'hsl(var(--muted-foreground))'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		maxWidth: {
+  			container: '1280px'
+  		},
+  		animation: {
+  			marquee: 'marquee var(--duration) linear infinite'
+  		},
+  		keyframes: {
+  			marquee: {
+  				from: {
+  					transform: 'translateX(0)'
+  				},
+  				to: {
+  					transform: 'translateX(calc(-100% - var(--gap)))'
+  				}
+  			}
   		}
   	}
   },
