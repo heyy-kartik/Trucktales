@@ -1,18 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
-import { LocateFixed } from "lucide-react";
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { Loader } from '@googlemaps/js-api-loader';
+import { LocateFixed } from 'lucide-react';
 
 type RealTimeLocationProps = {
   onLocationUpdate?: (position: GeolocationPosition) => void;
   onMapLoad?: (map: google.maps.Map) => void;
 };
 
-export function RealTimeLocation({
-  onLocationUpdate,
-  onMapLoad,
-}: RealTimeLocationProps) {
+export function RealTimeLocation({ onLocationUpdate, onMapLoad }: RealTimeLocationProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<google.maps.Map | null>(null);
   const marker = useRef<google.maps.Marker | null>(null);
@@ -23,83 +20,77 @@ export function RealTimeLocation({
   const centerOnMe = useCallback(() => {
     if (marker.current?.getPosition() && mapInstance.current) {
       mapInstance.current.setCenter(marker.current.getPosition()!);
-      mapInstance.current.setZoom(15);
     }
   }, []);
 
   useEffect(() => {
     const initMap = async () => {
-      if (!mapRef.current) return;
-      setIsLoading(true);
+      const loader = new Loader({
+        apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
+        version: "weekly",
+      });
 
       try {
-        // Initialize the loader
-        const loader = new Loader({
-          apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-          version: "weekly",
-          libraries: ["places"],
-        });
-
-        // Load the Google Maps API
-        await loader.load();
+        const { Map } = await loader.importLibrary('maps');
+        const { Marker } = await loader.importLibrary('marker');
         
-        // Now we can use the global google object
-        const { Map } = (await google.maps.importLibrary("maps")) as google.maps.MapsLibrary;
-        const { Marker } = (await google.maps.importLibrary("marker")) as google.maps.MarkerLibrary;
+        if (mapRef.current && !mapInstance.current) {
+          const map = new Map(mapRef.current, {
+            center: { lat: 20.5937, lng: 78.9629 }, // Center of India
+            zoom: 5,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: true,
+          });
 
-        // Create map instance
-        const map = new Map(mapRef.current, {
-          center: { lat: 20.5937, lng: 78.9629 }, // Center of India
-          zoom: 5,
-          mapTypeControl: false,
-          streetViewControl: false,
-          fullscreenControl: true,
-        });
+          mapInstance.current = map;
+          marker.current = new Marker({ map });
 
-        mapInstance.current = map;
-        marker.current = new Marker({ map });
+          if (onMapLoad) {
+            onMapLoad(map);
+          }
 
-        onMapLoad?.(map);
+          // Start watching position
+          if (navigator.geolocation) {
+            watchId.current = navigator.geolocation.watchPosition(
+              (position) => {
+                const pos = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                };
 
-        // Handle geolocation
-        if (!navigator.geolocation) {
-          setError("Geolocation is not supported by your browser");
-          return;
+                // Update marker
+                if (marker.current) {
+                  marker.current.setPosition(pos);
+                }
+
+                // Center map on position
+                if (mapInstance.current) {
+                  mapInstance.current.setCenter(pos);
+                }
+
+                // Callback with position data
+                if (onLocationUpdate) {
+                  onLocationUpdate(position);
+                }
+              },
+              (error) => {
+                console.error('Error getting location:', error);
+                setError('Unable to retrieve your location. Please ensure location services are enabled.');
+              },
+              {
+                enableHighAccuracy: true,
+                maximumAge: 10000,
+                timeout: 5000,
+              }
+            );
+          } else {
+            setError('Geolocation is not supported by your browser.');
+          }
         }
-
-        const success = (position: GeolocationPosition) => {
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-
-          marker.current?.setPosition(pos);
-          map.setCenter(pos);
-          map.setZoom(15);
-          
-          onLocationUpdate?.(position);
-        };
-
-        const error = (err: GeolocationPositionError) => {
-          console.error("Error getting location:", err);
-          setError("Could not get your location. Please check your browser settings.");
-        };
-
-        // Get current position
-        navigator.geolocation.getCurrentPosition(success, error, {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0
-        });
-
-        // Watch position
-        watchId.current = navigator.geolocation.watchPosition(success, error, {
-          enableHighAccuracy: true
-        });
-
-      } catch (err) {
-        console.error("Error loading Google Maps:", err);
-        setError("Failed to load Google Maps. Please check your internet connection.");
+      } catch (error) {
+        console.error('Error initializing map:', error);
+        setError('Failed to load map. Please check your internet connection.');
       } finally {
         setIsLoading(false);
       }
@@ -108,6 +99,7 @@ export function RealTimeLocation({
     initMap();
 
     return () => {
+      // Clean up
       if (watchId.current !== null) {
         navigator.geolocation.clearWatch(watchId.current);
       }
@@ -115,37 +107,25 @@ export function RealTimeLocation({
   }, [onLocationUpdate, onMapLoad]);
 
   return (
-    <div className="relative w-full h-full">
+    <div className="w-full h-full relative">
       {isLoading && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent" />
+        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80 z-10">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
         </div>
       )}
-
       {error && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-red-50 p-4">
-          <div className="text-center">
-            <p className="text-red-600 mb-2">Error</p>
-            <p className="text-sm text-gray-700 mb-3">{error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-3 py-1 text-sm bg-indigo-600 text-white rounded hover:bg-indigo-700"
-            >
-              Try Again
-            </button>
-          </div>
+        <div className="absolute inset-0 flex items-center justify-center bg-red-50 p-4 z-10">
+          <p className="text-red-600 text-center">{error}</p>
         </div>
       )}
-
       <div ref={mapRef} className="w-full h-full" />
-
       {!isLoading && !error && (
         <button
           onClick={centerOnMe}
-          className="absolute bottom-4 right-4 z-10 p-2 bg-white rounded-full shadow-md hover:shadow-lg"
+          className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 z-10"
           aria-label="Center on my location"
         >
-          <LocateFixed className="h-5 w-5 text-indigo-600" />
+          <LocateFixed className="h-5 w-5 text-gray-700" />
         </button>
       )}
     </div>

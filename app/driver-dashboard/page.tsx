@@ -10,6 +10,7 @@ import { ActiveTripPanel } from '@/components/driver/ActiveTripPanel';
 import { QuickStats } from '@/components/driver/QuickStats';
 import { RealTimeLocation } from '@/components/driver/RealTimeLocation';
 import { MapPin, Clock, Truck, Package, IndianRupee, LocateFixed } from 'lucide-react';
+import DriverMap from '@/components/DriverMap';
 
 // Mock data for available requests
 const mockRequests = [
@@ -96,40 +97,8 @@ export default function DriverDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Map Section */}
           <div className="lg:col-span-2 bg-white rounded-lg shadow p-4">
-            <div className="h-96 rounded-lg overflow-hidden relative">
-              <RealTimeLocation 
-                onLocationUpdate={(position) => {
-                  setCurrentLocation({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                    accuracy: position.coords.accuracy,
-                    timestamp: position.timestamp
-                  });
-                }}
-                onMapLoad={(map) => {
-                  mapRef.current = map;
-                }}
-              />
-              {currentLocation && (
-                <div className="absolute bottom-4 left-4 bg-white p-3 rounded-lg shadow-md z-10">
-                  <div className="flex items-center space-x-2">
-                    <div className="p-1.5 bg-green-100 rounded-full">
-                      <LocateFixed className="h-4 w-4 text-green-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-gray-500">Your Location</p>
-                      <p className="text-sm font-mono">
-                        {currentLocation.lat.toFixed(6)}, {currentLocation.lng.toFixed(6)}
-                      </p>
-                      {currentLocation.accuracy && (
-                        <p className="text-xs text-gray-400">
-                          ±{(currentLocation.accuracy).toFixed(0)} meters accuracy
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
+            <div className="h-96 rounded-lg overflow-hidden">
+              <DriverMap />
             </div>
             
             {/* Trip Info */}
