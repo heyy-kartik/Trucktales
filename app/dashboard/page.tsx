@@ -1,72 +1,176 @@
 "use client";
 
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useState, useMemo } from "react";
+
 import MapboxDashboard from "@/components/MapboxDashboard";
 import IncidentsList from "@/components/IncidentsList";
 import Analytics from "@/components/Analytics";
-import { useState } from "react";
+
+// Mock data for incidents
+const mockIncidents = [
+  {
+    _id: "1",
+    highway: "NH-48",
+    kilometer: 125,
+    issue: "Pothole reported on left lane",
+    severity: "medium",
+    latitude: 28.4595,
+    longitude: 77.0266,
+    reportedAt: Date.now() - 3600000,
+    status: "open",
+  },
+  {
+    _id: "2",
+    highway: "NH-44",
+    kilometer: 340,
+    issue: "Accident - two vehicles involved",
+    severity: "high",
+    latitude: 28.6139,
+    longitude: 77.209,
+    reportedAt: Date.now() - 1800000,
+    status: "in-progress",
+  },
+  {
+    _id: "3",
+    highway: "NH-48",
+    kilometer: 89,
+    issue: "Road debris on highway",
+    severity: "low",
+    latitude: 28.5355,
+    longitude: 77.391,
+    reportedAt: Date.now() - 7200000,
+    status: "resolved",
+  },
+  {
+    _id: "4",
+    highway: "NH-19",
+    kilometer: 200,
+    issue: "Heavy traffic congestion",
+    severity: "medium",
+    latitude: 28.7041,
+    longitude: 77.1025,
+    reportedAt: Date.now() - 900000,
+    status: "open",
+  },
+];
+
+// Mock data for trucks
+const mockTrucks = [
+  {
+    _id: "t1",
+    truckId: "TRK-001",
+    driverName: "Rajesh Kumar",
+    phoneNumber: "+91-9876543210",
+    currentHighway: "NH-48",
+    currentKilometer: 120,
+    latitude: 28.4595,
+    longitude: 77.0266,
+    status: "active",
+    lastUpdated: Date.now(),
+  },
+  {
+    _id: "t2",
+    truckId: "TRK-002",
+    driverName: "Amit Singh",
+    phoneNumber: "+91-9876543211",
+    currentHighway: "NH-44",
+    currentKilometer: 335,
+    latitude: 28.6139,
+    longitude: 77.209,
+    status: "active",
+    lastUpdated: Date.now(),
+  },
+  {
+    _id: "t3",
+    truckId: "TRK-003",
+    driverName: "Suresh Patel",
+    phoneNumber: "+91-9876543212",
+    currentHighway: "NH-19",
+    currentKilometer: 195,
+    latitude: 28.7041,
+    longitude: 77.1025,
+    status: "idle",
+    lastUpdated: Date.now() - 600000,
+  },
+];
 
 export default function DashboardPage() {
-  const [selectedSeverity, setSelectedSeverity] = useState<string | undefined>();
+  const [selectedSeverity, setSelectedSeverity] = useState<
+    string | undefined
+  >();
   const [selectedStatus, setSelectedStatus] = useState<string | undefined>();
 
-  const incidents = useQuery(api.incidents.getIncidents, {
-    severity: selectedSeverity,
-    status: selectedStatus,
-  });
+  // Filter incidents based on selected filters
+  const incidents = useMemo(() => {
+    return mockIncidents.filter((incident) => {
+      if (selectedSeverity && incident.severity !== selectedSeverity)
+        return false;
+      if (selectedStatus && incident.status !== selectedStatus) return false;
+      return true;
+    });
+  }, [selectedSeverity, selectedStatus]);
 
-  const trucks = useQuery(api.incidents.getTrucks, {});
+  const trucks = mockTrucks;
 
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
           <h1 className="text-3xl font-bold">Highway Monitoring System</h1>
-          <p className="text-muted-foreground">Real-time incident tracking and truck monitoring</p>
+          <p className="text-muted-foreground">
+            Real-time incident tracking and truck monitoring
+          </p>
         </div>
       </header>
 
       <main className="container mx-auto px-4 py-6">
         <div className="grid gap-6 lg:grid-cols-3">
-          {/* Map View */}
+          {/* Map View - takes most of the space */}
           <div className="lg:col-span-2">
-            <MapboxDashboard
-              incidents={incidents || []}
-              trucks={trucks || []}
-            />
+            <MapboxDashboard incidents={incidents} trucks={trucks} />
           </div>
 
-          {/* Sidebar */}
+          {/* Sidebar with filters + analytics + list */}
           <div className="space-y-6">
-            {/* Analytics */}
-            <Analytics incidents={incidents || []} trucks={trucks || []} />
+            {/* Analytics Card */}
+            <Analytics incidents={incidents} trucks={trucks} />
 
-            {/* Filters */}
-            <div className="rounded-lg border bg-card p-4">
+            {/* Filters Card */}
+            <div className="rounded-lg border bg-card p-4 shadow-sm">
               <h2 className="mb-4 text-lg font-semibold">Filters</h2>
-              <div className="space-y-3">
+              <div className="space-y-4">
+                {/* Severity Filter */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium">Severity</label>
+                  <label className="mb-2 block text-sm font-medium text-foreground">
+                    Severity
+                  </label>
                   <select
-                    className="w-full rounded-md border bg-background px-3 py-2"
-                    value={selectedSeverity || ""}
-                    onChange={(e) => setSelectedSeverity(e.target.value || undefined)}
+                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    value={selectedSeverity ?? ""}
+                    onChange={(e) =>
+                      setSelectedSeverity(e.target.value || undefined)
+                    }
                   >
-                    <option value="">All</option>
+                    <option value="">All Severities</option>
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
                   </select>
                 </div>
+
+                {/* Status Filter */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium">Status</label>
+                  <label className="mb-2 block text-sm font-medium text-foreground">
+                    Status
+                  </label>
                   <select
-                    className="w-full rounded-md border bg-background px-3 py-2"
-                    value={selectedStatus || ""}
-                    onChange={(e) => setSelectedStatus(e.target.value || undefined)}
+                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    value={selectedStatus ?? ""}
+                    onChange={(e) =>
+                      setSelectedStatus(e.target.value || undefined)
+                    }
                   >
-                    <option value="">All</option>
+                    <option value="">All Statuses</option>
                     <option value="open">Open</option>
                     <option value="in-progress">In Progress</option>
                     <option value="resolved">Resolved</option>
@@ -76,7 +180,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Incidents List */}
-            <IncidentsList incidents={incidents || []} />
+            <IncidentsList incidents={incidents} />
           </div>
         </div>
       </main>

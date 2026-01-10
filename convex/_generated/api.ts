@@ -8,6 +8,7 @@ export const api: any = {
     createIncident: null,
     updateTruckLocation: null,
     getNearbyTrucks: null,
+  
   },
 } as any;
 
