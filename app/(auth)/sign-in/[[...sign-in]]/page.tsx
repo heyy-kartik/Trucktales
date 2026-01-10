@@ -5,11 +5,6 @@ export default function Page() {
   return (
     <>
       <div className="flex items-center justify-center mt-8">
-        <ClerkLoading>
-          <Loader2 className="animate-spin text-muted-foreground" />
-        </ClerkLoading>
-      </div>
-      <div className="flex items-center justify-center mt-8">
         <ClerkLoaded>
           <SignIn path="/sign-in" />
         </ClerkLoaded>

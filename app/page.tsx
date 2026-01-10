@@ -7,8 +7,8 @@ export default function Home() {
     <React.Fragment>
       <MynaHero />
       <TestimonialsSectionDemo />
-      <div className="relative flex min-h-svh flex-col">
-        <div className="min-h-screen flex items-center justify-center">
+      <div className="relative flex min-h-screen flex-col">
+        <div className="min-h-2xl pb-32 flex items-center justify-center">
           <h1 className="font-mono text-2xl font-bold">Scroll Down!</h1>
         </div>
         <Footer />
