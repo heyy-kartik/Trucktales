@@ -5,6 +5,7 @@ import { useState, useMemo } from "react";
 import MapboxDashboard from "@/components/MapboxDashboard";
 import IncidentsList from "@/components/IncidentsList";
 import Analytics from "@/components/Analytics";
+import { NavigationBar } from "@/components/NavigationBar";
 
 // Mock data for incidents
 const mockIncidents = [
@@ -114,14 +115,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <h1 className="text-3xl font-bold">Highway Monitoring System</h1>
-          <p className="text-muted-foreground">
-            Real-time incident tracking and truck monitoring
-          </p>
-        </div>
-      </header>
+      <NavigationBar />
 
       <main className="container mx-auto px-4 py-6">
         <div className="grid gap-6 lg:grid-cols-3">

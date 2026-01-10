@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 
 const navigationItems = [
   { title: "FEATURES", href: "#features" },
-  { title: "HOW IT WORKS", href: "#" },
+  { title: "HOW IT WORKS", href: "/how-it-works" },
   { title: "FOR DRIVERS", href: "#" },
   { title: "FOR FLEETS", href: "#" },
 ];
