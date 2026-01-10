@@ -1,10 +1,28 @@
+import { currentUser } from "@clerk/nextjs/server";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { SectionCards } from "@/components/section-cards";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-export default function Page() {
+export default async function Page() {
+  const user = await currentUser();
+
+  const userData = user
+    ? {
+        name:
+          `${user.firstName || ""} ${user.lastName || ""}`.trim() ||
+          user.username ||
+          "User",
+        email: user.emailAddresses[0]?.emailAddress || "",
+        avatar: user.imageUrl || "",
+      }
+    : {
+        name: "Guest",
+        email: "guest@example.com",
+        avatar: "",
+      };
+
   return (
     <SidebarProvider defaultOpen={true} className="">
       <div className="flex h-screen w-screen overflow-hidden relative bg-background text-foreground">
