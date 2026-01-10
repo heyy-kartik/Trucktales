@@ -149,7 +149,7 @@ export default function DriverMap() {
 
       {/* Report Dialog */}
       {showReportDialog && (
-        <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-lg z-10">
+        <div className="absolute top-4 text-gray-800 right-4 bg-white p-4 rounded-lg shadow-lg z-10">
           <h3 className="font-bold mb-2">Report Road Condition</h3>
           <select 
             className="w-full p-2 border rounded mb-2"
@@ -180,7 +180,7 @@ export default function DriverMap() {
 
       {/* Road Conditions List */}
       {roadConditions.length > 0 && (
-        <div className="absolute bottom-4 left-4 bg-white p-4 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+        <div className="absolute bottom-4 text-gray-800 left-4 bg-white p-4 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
           <h3 className="font-bold mb-2">Road Conditions</h3>
           <div className="space-y-2">
             {roadConditions.map((condition) => (
