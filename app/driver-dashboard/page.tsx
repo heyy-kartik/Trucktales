@@ -80,13 +80,6 @@ export default function DriverDashboardPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <DriverLayout>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">Driver Dashboard</h1>
-          <DriverStatusToggle />
-=======
     <div className="min-h-screen bg-linear-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
       <NavigationBar />
 
@@ -110,7 +103,6 @@ export default function DriverDashboardPage() {
               <UserButton afterSignOutUrl="/" />
             </ClerkLoaded>
           </div>
->>>>>>> 58c33b9 (refactor: enhance layout and styling across multiple components)
         </div>
 
         {/* Quick Stats */}
@@ -210,12 +202,7 @@ export default function DriverDashboardPage() {
             </div>
           </div>
         </div>
-<<<<<<< HEAD
-      </div>
-    </DriverLayout>
-=======
       </main>
     </div>
->>>>>>> 58c33b9 (refactor: enhance layout and styling across multiple components)
   );
 }
