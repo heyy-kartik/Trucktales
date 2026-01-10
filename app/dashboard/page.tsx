@@ -112,8 +112,11 @@ export default function DashboardPage() {
   const trucks = mockTrucks;
 
   return (
+<<<<<<< HEAD
+=======
     <div className="min-h-screen bg-background">
       <NavigationBar />
+>>>>>>> 4ee9acb01449993acc663cc372af1400db103e43
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
       {/* Header - Cleaner + modern */}
       <header className="border-b bg-white/70 dark:bg-slate-900/70 backdrop-blur-md sticky top-0 z-30">
