@@ -5,7 +5,7 @@ import React from "react";
 export default function Home() {
   return (
     <React.Fragment>
-      <MynaHero />;
+      <MynaHero />
       <TestimonialsSectionDemo />
       <div className="relative flex min-h-svh flex-col">
         <div className="min-h-screen flex items-center justify-center">
