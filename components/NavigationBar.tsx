@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Menu, Truck, ArrowRight } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { JSX } from "react";
 
 const navigationItems = [
   { id: "features", title: "FEATURES", href: "#features" },
