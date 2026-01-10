@@ -15,6 +15,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const navigationItems = [
   { title: "FEATURES", href: "#features" },
@@ -93,7 +94,8 @@ export function MynaHero() {
             ))}
           </nav>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-4">
+            <ModeToggle />
             <Button
               variant="default"
               className="rounded-none hidden md:inline-flex bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
@@ -101,6 +103,16 @@ export function MynaHero() {
             >
               <Link href="/sign-up">
                 GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
+              </Link>
+            </Button>
+            <Button
+              variant="default"
+              className="rounded-none hidden md:inline-flex bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
+              asChild
+            >
+              <Link href="/sign-in  ">
+                GET Login 
+                <ArrowRight className="ml-1 w-4 h-4" />
               </Link>
             </Button>
             <Sheet>
@@ -125,9 +137,9 @@ export function MynaHero() {
                     className="cursor-pointer rounded-none bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
                     asChild
                   >
-                    <a href="/sign-up">
+                    <Link href="/sign-up">
                       GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
-                    </a>
+                    </Link>
                   </Button>
                 </nav>
               </SheetContent>
@@ -214,9 +226,9 @@ export function MynaHero() {
                 className="cursor-pointer rounded-none mt-12 bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
                 asChild
               >
-                <a href="/sign-up">
+                <Link href="/sign-up">
                   GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
-                </a>
+                </Link>
               </Button>
             </motion.div>
           </div>
