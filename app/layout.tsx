@@ -17,7 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-sans antialiased" suppressHydrationWarning>
+      <body
+        className="min-h-screen flex flex-col font-sans antialiased"
+        suppressHydrationWarning
+      >
         <ClerkProvider>
           <ThemeProvider
             attribute="class"
@@ -25,7 +28,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-              {children}
+            <div className="flex-1 flex flex-col">{children}</div>
           </ThemeProvider>
         </ClerkProvider>
       </body>

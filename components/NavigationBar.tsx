@@ -19,7 +19,7 @@ export function NavigationBar(): React.ReactElement {
     <header className="sticky top-0 z-50 bg-background shadow-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <a href="#" className="flex items-center gap-2">
-          <Truck className="h-15 w-15 hover:bg-amber-50 bg-amber-50" />
+          <Truck className="h-8 w-8 hover:bg-amber-50 bg-amber-50" />
           <span className="font-mono text-xl font-bold text-black">
             TruckTales
           </span>
@@ -39,11 +39,11 @@ export function NavigationBar(): React.ReactElement {
 
         <div className="flex items-center gap-4">
           <Button
-            className="hidden md:flex cursor-pointer rounded-none bg-[#D35400] hover:bg-[#D35400]/90 font-mono"
+            className="hidden md:flex cursor-pointer rounded-none bg-[#D35400] hover:bg-[#D35400]/90 font-mono text-white"
             asChild
           >
             <a href="/dashboard">
-              GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
+              GET STARTED <ArrowRight className="ml-1 h-4 w-4 text-white" />
             </a>
           </Button>
           <ModeToggle />
@@ -66,11 +66,11 @@ export function NavigationBar(): React.ReactElement {
                   </a>
                 ))}
                 <Button
-                  className="cursor-pointer rounded-none bg-[#D35400] hover:bg-[#D35400]/90 font-mono"
+                  className="cursor-pointer rounded-none bg-[#D35400] hover:bg-[#D35400]/90 font-mono text-white"
                   asChild
                 >
                   <a href="/dashboard">
-                    GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
+                    GET STARTED <ArrowRight className="ml-1 h-4 w-4 text-white" />
                   </a>
                 </Button>
               </nav>

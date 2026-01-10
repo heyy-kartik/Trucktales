@@ -80,11 +80,37 @@ export default function DriverDashboardPage() {
   };
 
   return (
+<<<<<<< HEAD
     <DriverLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">Driver Dashboard</h1>
           <DriverStatusToggle />
+=======
+    <div className="min-h-screen bg-linear-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
+      <NavigationBar />
+
+      {/* Page header */}
+      <header className="border-b bg-white dark:bg-slate-900">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Highway Monitoring
+            </h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Real-time incidents & fleet tracking
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="text-xs px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400 font-medium">
+              Live
+            </div>
+            <ClerkLoaded>
+              <UserButton afterSignOutUrl="/" />
+            </ClerkLoaded>
+          </div>
+>>>>>>> 58c33b9 (refactor: enhance layout and styling across multiple components)
         </div>
 
         {/* Quick Stats */}
@@ -184,7 +210,12 @@ export default function DriverDashboardPage() {
             </div>
           </div>
         </div>
+<<<<<<< HEAD
       </div>
     </DriverLayout>
+=======
+      </main>
+    </div>
+>>>>>>> 58c33b9 (refactor: enhance layout and styling across multiple components)
   );
 }
