@@ -2,50 +2,50 @@
 
 import * as React from "react";
 import {
-  Activity,
   ArrowRight,
-  BarChart,
-  Bird,
   Menu,
-  Plug,
-  Sparkles,
+  Mic,
+  MapPin,
   Zap,
+  Truck,
+  CreditCard,
+  AlertTriangle,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 const navigationItems = [
-  { title: "SOLUTIONS", href: "#" },
-  { title: "INDUSTRIES", href: "#" },
-  { title: "RESOURCES", href: "#" },
-  { title: "ABOUT US", href: "#" },
+  { title: "FEATURES", href: "#features" },
+  { title: "HOW IT WORKS", href: "#" },
+  { title: "FOR DRIVERS", href: "#" },
+  { title: "FOR FLEETS", href: "#" },
 ];
 
 const labels = [
-  { icon: Sparkles, label: "Predictive Analytics" },
-  { icon: Plug, label: "Machine Learning" },
-  { icon: Activity, label: "Natural Language Processing" },
+  { icon: Mic, label: "Voice-First Hindi AI" },
+  { icon: MapPin, label: "Real-Time Tracking" },
+  { icon: Zap, label: "60-Second Payments" },
 ];
 
 const features = [
   {
-    icon: BarChart,
-    label: "Advanced Analytics",
+    icon: Mic,
+    label: "Live Tale Map",
     description:
-      "Gain deeper insights from your data with our cutting-edge predictive models.",
+      "Drivers speak updates in Hindi → AI converts to live map markers. No typing, safe while driving.",
   },
   {
-    icon: Zap,
-    label: "Intelligent Automation",
+    icon: CreditCard,
+    label: "POD → UPI in 60 Seconds",
     description:
-      "Streamline your processes with AI-powered automation solutions.",
+      "Photo proof of delivery triggers instant UPI payment. Blockchain-verified, zero disputes.",
   },
   {
-    icon: Activity,
-    label: "Real-time Insights",
+    icon: AlertTriangle,
+    label: "AI Jam Prediction",
     description:
-      "Make informed decisions faster with our real-time data processing capabilities.",
+      "Machine learning predicts congestion from voice tales. Save 6 hours & ₹3,000 fuel per incident.",
   },
 ];
 
@@ -61,12 +61,12 @@ export function MynaHero() {
   }, [controls, isInView]);
 
   const titleWords = [
-    "THE",
-    "AI",
-    "REVOLUTION",
-    "FOR",
-    "BUSINESS",
-    "INTELLIGENCE",
+    "TURNING",
+    "DRIVERS",
+    "INTO",
+    "STORYTELLERS",
+    "NOT",
+    "DATA POINTS",
   ];
 
   return (
@@ -75,8 +75,8 @@ export function MynaHero() {
         <div className="flex h-16 items-center justify-between">
           <a href="#" className="flex items-center gap-2">
             <div className="flex items-center space-x-2">
-              <Bird className="h-8 w-8" />
-              <span className="font-mono text-xl font-bold">Myna UI</span>
+              <Truck className="h-8 w-8" />
+              <span className="font-mono text-xl font-bold">TruckTales</span>
             </div>
           </a>
 
@@ -96,8 +96,11 @@ export function MynaHero() {
             <Button
               variant="default"
               className="rounded-none hidden md:inline-flex bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
+              asChild
             >
-              GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
+              <a href="/dashboard">
+                GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
+              </a>
             </Button>
             <Sheet>
               <SheetTrigger asChild>
@@ -117,8 +120,13 @@ export function MynaHero() {
                       {item.title}
                     </a>
                   ))}
-                  <Button className="cursor-pointer rounded-none bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono">
-                    GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
+                  <Button
+                    className="cursor-pointer rounded-none bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
+                    asChild
+                  >
+                    <a href="/dashboard">
+                      GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
+                    </a>
                   </Button>
                 </nav>
               </SheetContent>
@@ -158,8 +166,9 @@ export function MynaHero() {
               transition={{ delay: 1.2, duration: 0.6 }}
               className="mx-auto mt-8 max-w-2xl text-xl text-foreground font-mono"
             >
-              We empower businesses with cutting-edge AI solutions to transform
-              data into actionable insights.
+              India&apos;s logistics revolution speaks Hindi, not spreadsheets.
+              Voice-first AI for 10M unorganized truckers — eliminating 45-day
+              payment delays &amp; 18-22% fuel waste.
             </motion.p>
 
             <motion.div
@@ -202,14 +211,17 @@ export function MynaHero() {
               <Button
                 size="lg"
                 className="cursor-pointer rounded-none mt-12 bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
+                asChild
               >
-                GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
+                <a href="/dashboard">
+                  GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
+                </a>
               </Button>
             </motion.div>
           </div>
         </section>
 
-        <section className="container" ref={ref}>
+        <section className="container" ref={ref} id="features">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -222,7 +234,7 @@ export function MynaHero() {
             }}
             className="text-center text-4xl font-mono font-bold mb-6"
           >
-            Unlock the Power of AI
+            Three Core Innovations
           </motion.h2>
           <motion.div
             initial={{ opacity: 0 }}
