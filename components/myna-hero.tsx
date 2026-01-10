@@ -14,10 +14,11 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const navigationItems = [
   { title: "FEATURES", href: "#features" },
-  { title: "HOW IT WORKS", href: "#" },
+  { title: "HOW IT WORKS", href: "/how-it-works" },
   { title: "FOR DRIVERS", href: "#" },
   { title: "FOR FLEETS", href: "#" },
 ];
@@ -73,22 +74,22 @@ export function MynaHero() {
     <div className="container mx-auto px-4 min-h-screen bg-background">
       <header>
         <div className="flex h-16 items-center justify-between">
-          <a href="#" className="flex items-center gap-2">
+          <Link href="#" className="flex items-center gap-2">
             <div className="flex items-center space-x-2">
               <Truck className="h-8 w-8" />
               <span className="font-mono text-xl font-bold">TruckTales</span>
             </div>
-          </a>
+          </Link>
 
           <nav className="hidden md:flex items-center space-x-8">
             {navigationItems.map((item) => (
-              <a
+              <Link
                 key={item.title}
                 href={item.href}
                 className="text-sm font-mono text-foreground hover:text-[#FF6B2C] transition-colors"
               >
                 {item.title}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -98,9 +99,19 @@ export function MynaHero() {
               className="rounded-none hidden md:inline-flex bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
               asChild
             >
-              <a href="/dashboard">
+              <Link href="/sign-up">
                 GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
-              </a>
+              </Link>
+            </Button>
+            <Button
+              variant="default"
+              className="rounded-none hidden md:inline-flex bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
+              asChild
+            >
+              <Link href="/sign-in  ">
+                GET Login 
+                <ArrowRight className="ml-1 w-4 h-4" />
+              </Link>
             </Button>
             <Sheet>
               <SheetTrigger asChild>
@@ -112,19 +123,19 @@ export function MynaHero() {
               <SheetContent>
                 <nav className="flex flex-col gap-6 mt-6">
                   {navigationItems.map((item) => (
-                    <a
+                    <Link
                       key={item.title}
                       href={item.href}
                       className="text-sm font-mono text-foreground hover:text-[#FF6B2C] transition-colors"
                     >
                       {item.title}
-                    </a>
+                    </Link>
                   ))}
                   <Button
                     className="cursor-pointer rounded-none bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
                     asChild
                   >
-                    <a href="/dashboard">
+                    <a href="/sign-up">
                       GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
                     </a>
                   </Button>
@@ -213,7 +224,7 @@ export function MynaHero() {
                 className="cursor-pointer rounded-none mt-12 bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
                 asChild
               >
-                <a href="/dashboard">
+                <a href="/sign-up">
                   GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
                 </a>
               </Button>
