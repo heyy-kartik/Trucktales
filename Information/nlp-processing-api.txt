@@ -1,0 +1,1 @@
+Build /api/process-tale route in Next.js. Accept voice text, use Whisper for Hindi STT, extract entities (highways, KMs) with regex, classify intent with Gemini, analyze sentiment, geocode with Mapbox, calculate severity, store in Convex. Return JSON with location coords, issue type, ETA delay, action required flag. Cache frequent patterns.

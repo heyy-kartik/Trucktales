@@ -1,0 +1,2 @@
+- Store all voice tales in Prisma/Neon with location, timestamp, issue type
+- Build training dataset from historical patterns

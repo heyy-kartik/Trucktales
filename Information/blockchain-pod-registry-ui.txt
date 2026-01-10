@@ -1,0 +1,1 @@
+Create Next.js page to interact with Polygon smart contract using ethers.js. Display all PODs in table with photo hash, timestamp, driver, amount, verification status. Click to view full details with photo from IPFS, blockchain transaction link (Polygonscan), payment status. Add search by POD ID. Show contract events log with Recharts timeline.

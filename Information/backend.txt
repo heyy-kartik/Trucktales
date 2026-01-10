@@ -1,0 +1,5 @@
+
+- /api/process-pod: verify photo → create blockchain record (ethers.js)
+- Generate photo hash, store on Polygon
+- n8n webhook: trigger Razorpay UPI payout
+- Mark as paid on chain, send SMS confirmation
