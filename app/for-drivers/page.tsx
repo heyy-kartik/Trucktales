@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Mic, Globe, Bell, MapPin, Navigation, Users, FileCheck, UserPlus } from 'lucide-react';
-
+import { NavigationBar } from "@/components/NavigationBar";
 const DriversSection = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
 
@@ -105,6 +107,7 @@ const DriversSection = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+        <NavigationBar />
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-orange-600 to-red-600 text-white">
         <div className="absolute inset-0 bg-black opacity-10"></div>

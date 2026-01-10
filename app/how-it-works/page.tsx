@@ -62,7 +62,7 @@ export default function HowItWorksPage(): JSX.Element {
           <h1 className="text-4xl font-bold text-black mb-4">
             How TruckTales Works
           </h1>
-          <p className="text-black text-lg max-w-2xl mx-auto">
+          <p className="mx-auto mt-8 max-w-2xl text-xl text-foreground font-mono">
             Discover how TruckTales makes logistics simple, fast, and efficient for drivers and fleet owners. Join thousands who trust us to save time, reduce costs, and stay connected.
           </p>
         </section>
