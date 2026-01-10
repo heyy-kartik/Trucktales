@@ -1,7 +1,5 @@
-import { redirect } from "next/navigation";
 import { MynaHero } from "@/components/myna-hero";
 import { TestimonialsSectionDemo } from "@/components/Testimonialreal";
-import { TestTube } from "lucide-react";
 import { Footer } from "@/components/footer-section";
 import React from "react";
 export default function Home() {

@@ -47,7 +47,6 @@ const config: Config = {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			},
-<<<<<<< HEAD
   			sidebar: {
   				DEFAULT: 'hsl(var(--sidebar-background))',
   				foreground: 'hsl(var(--sidebar-foreground))',
@@ -57,46 +56,22 @@ const config: Config = {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
-  			}
-=======
+  			},
   			brand: 'hsl(var(--brand))',
   			'brand-foreground': 'hsl(var(--brand-foreground))',
   			'muted-foreground': 'hsl(var(--muted-foreground))'
->>>>>>> 8cf377498ea81f25f11668d5c6bb9f074ccc6a06
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
-<<<<<<< HEAD
-  		keyframes: {
-  			'accordion-down': {
-  				from: {
-  					height: '0'
-  				},
-  				to: {
-  					height: 'var(--radix-accordion-content-height)'
-  				}
-  			},
-  			'accordion-up': {
-  				from: {
-  					height: 'var(--radix-accordion-content-height)'
-  				},
-  				to: {
-  					height: '0'
-  				}
-  			}
-  		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out'
-=======
+  		},
   		maxWidth: {
   			container: '1280px'
-  		},
-  		animation: {
-  			marquee: 'marquee var(--duration) linear infinite'
   		},
   		keyframes: {
   			marquee: {
@@ -107,7 +82,6 @@ const config: Config = {
   					transform: 'translateX(calc(-100% - var(--gap)))'
   				}
   			}
->>>>>>> 8cf377498ea81f25f11668d5c6bb9f074ccc6a06
   		}
   	}
   },
