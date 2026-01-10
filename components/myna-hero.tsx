@@ -21,7 +21,7 @@ const navigationItems = [
   { title: "FEATURES", href: "#features" },
   { title: "HOW IT WORKS", href: "/how-it-works" },
   { title: "FOR DRIVERS", href: "/for-drivers"},
-  { title: "FOR FLEETS", href: "#" },
+  { title: "FOR FLEETS", href: "/for-fleets" },
 ];
 
 const labels = [
