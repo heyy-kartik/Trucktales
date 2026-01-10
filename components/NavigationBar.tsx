@@ -8,10 +8,10 @@ import { JSX } from "react";
 import { ModeToggle } from "@/components/mode-toggle";
 
 const navigationItems = [
-  { id: "features", title: "FEATURES", href: "#features" },
+  { id: "features", title: "FEATURES", href: "/" },
   { id: "how-it-works", title: "HOW IT WORKS", href: "/how-it-works" },
-  { id: "for-drivers", title: "FOR DRIVERS", href: "#" },
-  { id: "for-fleets", title: "FOR FLEETS", href: "#" },
+  { id: "for-drivers", title: "FOR DRIVERS", href: "/for-drivers" },
+  { id: "for-fleets", title: "FOR FLEETS", href: "/for-fleets" },
 ];
 
 export function NavigationBar(): React.ReactElement {
