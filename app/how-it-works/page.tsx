@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { JSX, useState } from "react";
 import { NavigationBar } from "@/components/NavigationBar";
 
 export default function HowItWorksPage(): JSX.Element {
