@@ -13,7 +13,10 @@ export default function HowItWorksPage(): JSX.Element {
         <ul className="list-disc pl-6 space-y-3 text-black">
           <li>Press the microphone button and talk naturally.</li>
           <li>Works even in noisy truck cabins.</li>
-          <li>Examples: "What’s my next load?" or "Show nearest fuel station."</li>
+          <li>
+            Examples: &quot;What’s my next load?&quot; or &quot;Show nearest fuel
+            station.&quot;
+          </li>
           <li>AI understands Hindi and English seamlessly.</li>
         </ul>
       ),
@@ -54,10 +57,11 @@ export default function HowItWorksPage(): JSX.Element {
   ];
 
   return (
-    <div className="container mx-auto px-4 min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col bg-background">
       <NavigationBar />
 
-      <main>
+      <main className="flex-1">
+        <div className="container mx-auto px-4">
         <section className="py-12 text-center">
           <h1 className="text-4xl font-bold text-black mb-4">
             How TruckTales Works
@@ -103,6 +107,7 @@ export default function HowItWorksPage(): JSX.Element {
             Get Started with TruckTales
           </button>
         </section>
+        </div>
       </main>
     </div>
   );

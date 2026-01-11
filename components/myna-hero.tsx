@@ -3,26 +3,16 @@
 import * as React from "react";
 import {
   ArrowRight,
-  Menu,
   Mic,
   MapPin,
   Zap,
-  Truck,
   CreditCard,
   AlertTriangle,
 } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { motion, useAnimation, useInView } from "framer-motion";
+import { NavigationBar } from "@/components/NavigationBar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ModeToggle } from "@/components/mode-toggle";
-
-const navigationItems = [
-  { title: "FEATURES", href: "#features" },
-  { title: "HOW IT WORKS", href: "/how-it-works" },
-  { title: "FOR DRIVERS", href: "/for-drivers"},
-  { title: "FOR FLEETS", href: "/for-fleets" },
-];
 
 const labels = [
   { icon: Mic, label: "Voice-First Hindi AI" },
@@ -72,84 +62,10 @@ export function MynaHero() {
   ];
 
   return (
-    <div className="container mx-auto px-4 min-h-screen bg-background">
-      <header>
-        <div className="flex h-16 items-center justify-between">
-          <Link href="#" className="flex items-center gap-2">
-            <div className="flex items-center space-x-2">
-              <Truck className="h-8 w-8" />
-              <span className="font-mono text-xl font-bold">TruckTales</span>
-            </div>
-          </Link>
-
-          <nav className="hidden md:flex items-center space-x-8">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.title}
-                href={item.href}
-                className="text-sm font-mono text-foreground hover:text-[#FF6B2C] transition-colors"
-              >
-                {item.title}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-4">
-            <ModeToggle />
-            <Button
-              variant="default"
-              className="rounded-none hidden md:inline-flex bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
-              asChild
-            >
-              <Link href="/sign-up">
-                GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
-              </Link>
-            </Button>
-            <Button
-              variant="default"
-              className="rounded-none hidden md:inline-flex bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
-              asChild
-            >
-              <Link href="/sign-in  ">
-                GET Login 
-                <ArrowRight className="ml-1 w-4 h-4" />
-              </Link>
-            </Button>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Toggle menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <nav className="flex flex-col gap-6 mt-6">
-                  {navigationItems.map((item) => (
-                    <Link
-                      key={item.title}
-                      href={item.href}
-                      className="text-sm font-mono text-foreground hover:text-[#FF6B2C] transition-colors"
-                    >
-                      {item.title}
-                    </Link>
-                  ))}
-                  <Button
-                    className="cursor-pointer rounded-none bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
-                    asChild
-                  >
-                    <Link href="/sign-up">
-                      GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
-                    </Link>
-                  </Button>
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
-
-      <main>
-        <section className="container py-24">
+    <section className="min-h-screen bg-background">
+      <NavigationBar />
+      <main className="container mx-auto px-4">
+        <section className="py-24">
           <div className="flex flex-col items-center text-center">
             <motion.h1
               initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
@@ -226,9 +142,9 @@ export function MynaHero() {
                 className="cursor-pointer rounded-none mt-12 bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
                 asChild
               >
-                <Link href="/sign-up">
-                  GET STARTED <ArrowRight className="ml-1 w-4 h-4" />
-                </Link>
+                <a href="/sign-up" className="text-white">
+                  GET STARTED <ArrowRight className="ml-1 w-4 h-4 " />
+                </a>
               </Button>
             </motion.div>
           </div>
@@ -283,6 +199,6 @@ export function MynaHero() {
           </motion.div>
         </section>
       </main>
-    </div>
+    </section>
   );
 }
