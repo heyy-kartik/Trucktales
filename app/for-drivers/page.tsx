@@ -1,9 +1,16 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Mic, Globe, Bell, MapPin, Navigation, Users, FileCheck, UserPlus } from 'lucide-react';
-import { NavigationBar } from "@/components/NavigationBar";
-
+import { Mic, Globe, Bell, Navigation, Users, FileCheck, UserPlus } from 'lucide-react';
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { DriverLayout } from '@/components/driver/DriverLayout';
+import { DriverStatusToggle } from '@/components/driver/DriverStatusToggle';
+import { RequestCard } from '@/components/driver/RequestCard';
+import { ActiveTripPanel } from '@/components/driver/ActiveTripPanel';
+import { QuickStats } from '@/components/driver/QuickStats';
+import { MapPin, Clock, Truck, Package, IndianRupee, LocateFixed } from 'lucide-react';
+import DriverMap, { DriverMapRef } from '@/components/DriverMap';
+import { NavigationBar } from '@/components/NavigationBar';
+  
 const DriversSection = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
@@ -24,7 +31,7 @@ const DriversSection = () => {
       icon: Globe,
       title: "Hindi and Multilingual Voice Command Processing",
       description: "Voice commands in multiple languages including Hindi",
-      details: [
+      details: [  
         "Voice commands in multiple languages including Hindi",
         "Hands-free operation while driving",
         "Action-triggered voice commands",
