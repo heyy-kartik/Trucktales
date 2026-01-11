@@ -1,4 +1,4 @@
-import { Truck, MapPin, Clock, Package, ArrowRight, IndianRupee } from 'lucide-react';
+import { Truck, MapPin, Clock, ArrowRight, IndianRupee } from "lucide-react";
 
 type RequestCardProps = {
   id: string;
@@ -73,9 +73,7 @@ export function RequestCard({
             <Clock className="h-4 w-4 mr-1" />
             <span>{estimatedTime}</span>
           </div>
-          <div className="text-sm text-gray-500">
-            {distance} km
-          </div>
+          <div className="text-sm text-gray-500">{distance} km</div>
           <div className="flex items-center font-medium text-gray-900">
             <IndianRupee className="h-4 w-4 mr-1" />
             {fare.toLocaleString()}

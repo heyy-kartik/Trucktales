@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
 import { LocateFixed } from "lucide-react";
 
 type RealTimeLocationProps = {
@@ -33,19 +32,27 @@ export function RealTimeLocation({
       setIsLoading(true);
 
       try {
-        // Initialize the loader
-        const loader = new Loader({
-          apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-          version: "weekly",
-          libraries: ["places"],
-        });
+        // Load Google Maps API dynamically
+        if (!window.google) {
+          await new Promise<void>((resolve, reject) => {
+            const script = document.createElement("script");
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}&libraries=places,marker`;
+            script.async = true;
+            script.defer = true;
+            script.onload = () => resolve();
+            script.onerror = () =>
+              reject(new Error("Failed to load Google Maps"));
+            document.head.appendChild(script);
+          });
+        }
 
-        // Load the Google Maps API
-        await loader.load();
-        
-        // Now we can use the global google object
-        const { Map } = (await google.maps.importLibrary("maps")) as google.maps.MapsLibrary;
-        const { Marker } = (await google.maps.importLibrary("marker")) as google.maps.MarkerLibrary;
+        // Now use the global google object
+        const { Map } = (await google.maps.importLibrary(
+          "maps"
+        )) as google.maps.MapsLibrary;
+        const { Marker } = (await google.maps.importLibrary(
+          "marker"
+        )) as google.maps.MarkerLibrary;
 
         // Create map instance
         const map = new Map(mapRef.current, {
@@ -76,30 +83,33 @@ export function RealTimeLocation({
           marker.current?.setPosition(pos);
           map.setCenter(pos);
           map.setZoom(15);
-          
+
           onLocationUpdate?.(position);
         };
 
         const error = (err: GeolocationPositionError) => {
           console.error("Error getting location:", err);
-          setError("Could not get your location. Please check your browser settings.");
+          setError(
+            "Could not get your location. Please check your browser settings."
+          );
         };
 
         // Get current position
         navigator.geolocation.getCurrentPosition(success, error, {
           enableHighAccuracy: true,
           timeout: 5000,
-          maximumAge: 0
+          maximumAge: 0,
         });
 
         // Watch position
         watchId.current = navigator.geolocation.watchPosition(success, error, {
-          enableHighAccuracy: true
+          enableHighAccuracy: true,
         });
-
       } catch (err) {
         console.error("Error loading Google Maps:", err);
-        setError("Failed to load Google Maps. Please check your internet connection.");
+        setError(
+          "Failed to load Google Maps. Please check your internet connection."
+        );
       } finally {
         setIsLoading(false);
       }

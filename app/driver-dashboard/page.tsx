@@ -1,45 +1,43 @@
 "use client";
 
-"use client";
-
-import { useState, useRef } from 'react';
-import { DriverLayout } from '@/components/driver/DriverLayout';
-import { DriverStatusToggle } from '@/components/driver/DriverStatusToggle';
-import { RequestCard } from '@/components/driver/RequestCard';
-import { ActiveTripPanel } from '@/components/driver/ActiveTripPanel';
-import { QuickStats } from '@/components/driver/QuickStats';
-import { RealTimeLocation } from '@/components/driver/RealTimeLocation';
-import { MapPin, Clock, Truck, Package, IndianRupee, LocateFixed } from 'lucide-react';
+import { useState, useRef } from "react";
+import { DriverLayout } from "@/components/driver/DriverLayout";
+import { DriverStatusToggle } from "@/components/driver/DriverStatusToggle";
+import { RequestCard } from "@/components/driver/RequestCard";
+import { ActiveTripPanel } from "@/components/driver/ActiveTripPanel";
+import { QuickStats } from "@/components/driver/QuickStats";
+import { RealTimeLocation } from "@/components/driver/RealTimeLocation";
+import { Clock, Truck, Package, IndianRupee, LocateFixed } from "lucide-react";
 
 // Mock data for available requests
 const mockRequests = [
   {
-    id: 'req1',
-    pickupLocation: 'Sector 18, Noida',
-    dropLocation: 'Connaught Place, Delhi',
+    id: "req1",
+    pickupLocation: "Sector 18, Noida",
+    dropLocation: "Connaught Place, Delhi",
     distance: 25.5,
-    estimatedTime: '1h 15m',
-    loadType: 'General Cargo',
+    estimatedTime: "1h 15m",
+    loadType: "General Cargo",
     weight: 500,
     fare: 1500,
   },
   {
-    id: 'req2',
-    pickupLocation: 'Gurugram Sector 14',
-    dropLocation: 'Nehru Place, Delhi',
+    id: "req2",
+    pickupLocation: "Gurugram Sector 14",
+    dropLocation: "Nehru Place, Delhi",
     distance: 18.2,
-    estimatedTime: '50m',
-    loadType: 'Electronics',
+    estimatedTime: "50m",
+    loadType: "Electronics",
     weight: 300,
     fare: 1200,
   },
   {
-    id: 'req3',
-    pickupLocation: 'Faridabad',
-    dropLocation: 'Rajouri Garden, Delhi',
+    id: "req3",
+    pickupLocation: "Faridabad",
+    dropLocation: "Rajouri Garden, Delhi",
     distance: 32.7,
-    estimatedTime: '1h 30m',
-    loadType: 'Furniture',
+    estimatedTime: "1h 30m",
+    loadType: "Furniture",
     weight: 750,
     fare: 2000,
   },
@@ -47,14 +45,17 @@ const mockRequests = [
 
 // Mock data for active trip
 const mockActiveTrip = {
-  pickupLocation: 'Sector 18, Noida',
-  dropLocation: 'Connaught Place, Delhi',
+  pickupLocation: "Sector 18, Noida",
+  dropLocation: "Connaught Place, Delhi",
   currentStep: 2, // 1: accepted, 2: reached pickup, 3: loaded, 4: in transit, 5: delivered
 };
 
 export default function DriverDashboardPage() {
-  const [activeTab, setActiveTab] = useState<'requests' | 'active'>('requests');
-  const [status, setStatus] = useState<'available' | 'on_trip' | 'offline'>('offline');
+  const [activeTab, setActiveTab] = useState<"requests" | "active">("requests");
+  const [, setStatus] = useState<"available" | "on_trip" | "offline">(
+    "offline"
+  );
+
   const [currentLocation, setCurrentLocation] = useState<{
     lat: number;
     lng: number;
@@ -62,19 +63,21 @@ export default function DriverDashboardPage() {
     timestamp?: number;
   } | null>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
-  
+
   const handleAcceptRequest = (requestId: string) => {
-    console.log('Accepted request:', requestId);
-    setActiveTab('active');
-    setStatus('on_trip');
+    console.log("Accepted request:", requestId);
+    setActiveTab("active");
+    setStatus("on_trip");
   };
 
   const handleRejectRequest = (requestId: string) => {
-    console.log('Rejected request:', requestId);
+    console.log("Rejected request:", requestId);
   };
 
-  const handleTripAction = (action: 'reached_pickup' | 'start_trip' | 'complete_delivery') => {
-    console.log('Trip action:', action);
+  const handleTripAction = (
+    action: "reached_pickup" | "start_trip" | "complete_delivery"
+  ) => {
+    console.log("Trip action:", action);
     // In a real app, you would update the trip status in your state management
   };
 
@@ -87,7 +90,7 @@ export default function DriverDashboardPage() {
         </div>
 
         {/* Quick Stats */}
-        <QuickStats 
+        <QuickStats
           todaysTrips={3}
           todaysEarnings={4200}
           completedTrips={127}
@@ -97,13 +100,13 @@ export default function DriverDashboardPage() {
           {/* Map Section */}
           <div className="lg:col-span-2 bg-white rounded-lg shadow p-4">
             <div className="h-96 rounded-lg overflow-hidden relative">
-              <RealTimeLocation 
+              <RealTimeLocation
                 onLocationUpdate={(position) => {
                   setCurrentLocation({
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
                     accuracy: position.coords.accuracy,
-                    timestamp: position.timestamp
+                    timestamp: position.timestamp,
                   });
                 }}
                 onMapLoad={(map) => {
@@ -117,13 +120,16 @@ export default function DriverDashboardPage() {
                       <LocateFixed className="h-4 w-4 text-green-600" />
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-gray-500">Your Location</p>
+                      <p className="text-xs font-medium text-gray-500">
+                        Your Location
+                      </p>
                       <p className="text-sm font-mono">
-                        {currentLocation.lat.toFixed(6)}, {currentLocation.lng.toFixed(6)}
+                        {currentLocation.lat.toFixed(6)},{" "}
+                        {currentLocation.lng.toFixed(6)}
                       </p>
                       {currentLocation.accuracy && (
                         <p className="text-xs text-gray-400">
-                          ±{(currentLocation.accuracy).toFixed(0)} meters accuracy
+                          ±{currentLocation.accuracy.toFixed(0)} meters accuracy
                         </p>
                       )}
                     </div>
@@ -131,7 +137,7 @@ export default function DriverDashboardPage() {
                 </div>
               )}
             </div>
-            
+
             {/* Trip Info */}
             <div className="mt-4 grid grid-cols-2 gap-4">
               <div className="bg-blue-50 p-4 rounded-lg">
@@ -155,15 +161,17 @@ export default function DriverDashboardPage() {
 
           {/* Right Panel - Requests / Active Trip */}
           <div className="space-y-4">
-            {activeTab === 'requests' ? (
+            {activeTab === "requests" ? (
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-lg font-medium text-gray-900">Available Requests</h2>
+                  <h2 className="text-lg font-medium text-gray-900">
+                    Available Requests
+                  </h2>
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
                     {mockRequests.length} requests
                   </span>
                 </div>
-                
+
                 <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
                   {mockRequests.map((request) => (
                     <RequestCard
@@ -193,7 +201,9 @@ export default function DriverDashboardPage() {
 
             {/* Quick Actions */}
             <div className="bg-white rounded-lg shadow p-4">
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Quick Actions</h3>
+              <h3 className="text-sm font-medium text-gray-900 mb-3">
+                Quick Actions
+              </h3>
               <div className="grid grid-cols-2 gap-3">
                 <button className="flex items-center justify-center p-3 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
                   <Truck className="h-5 w-5 mr-2" />

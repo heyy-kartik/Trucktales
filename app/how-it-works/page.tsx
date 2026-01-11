@@ -13,7 +13,7 @@ export default function HowItWorksPage(): JSX.Element {
         <ul className="list-disc pl-6 space-y-3 text-black">
           <li>Press the microphone button and talk naturally.</li>
           <li>Works even in noisy truck cabins.</li>
-          <li>Examples: "What’s my next load?" or "Show nearest fuel station."</li>
+          <li>Examples: &ldquo;What&apos;s my next load?&rdquo; or &ldquo;Show nearest fuel station.&rdquo;</li>
           <li>AI understands Hindi and English seamlessly.</li>
         </ul>
       ),

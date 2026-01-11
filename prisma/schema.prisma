@@ -6,17 +6,16 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
+
 generator client {
   provider = "prisma-client-js"
 }
 
-
 model User {
   id        String   @id @default(cuid())
-  clerkId  String   @unique
-  role     Role?
+  clerkId   String   @unique
+  role      Role?
   createdAt DateTime @default(now())
 }
 
@@ -24,4 +23,3 @@ enum Role {
   SHIPPER
   DRIVER
 }
-
