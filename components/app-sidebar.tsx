@@ -11,7 +11,7 @@ import {
   IconSettings,
   IconUsers,
 } from "@tabler/icons-react";
-import { Truck } from "lucide-react";
+import { Truck, X } from "lucide-react";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
@@ -23,6 +23,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 const data = {
@@ -82,6 +83,8 @@ export function AppSidebar({
     avatar: string;
   };
 }) {
+  const { toggleSidebar } = useSidebar();
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -96,6 +99,13 @@ export function AppSidebar({
                 <span className="text-base font-semibold">TruckTales</span>
               </a>
             </SidebarMenuButton>
+            <button
+              onClick={toggleSidebar}
+              className="ml-auto p-1.5 rounded-md hover:bg-sidebar-accent group-data-[collapsible=icon]:hidden"
+              aria-label="Close sidebar"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

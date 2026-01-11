@@ -27,9 +27,12 @@ export function DriverLayout({ children }: { children: ReactNode }) {
       {/* Sidebar */}
       <div className="hidden md:flex md:flex-shrink-0">
         <div className="flex flex-col w-64 bg-white border-r border-gray-200">
-          <div className="flex items-center h-16 flex-shrink-0 px-4 bg-indigo-600">
-            <h1 className="text-white text-xl font-bold">TruckTales</h1>
-          </div>
+          <Link href="#" className="flex items-center px-12 py-4 gap-2">
+            <div className="flex items-center text-gray-950 space-x-2">
+              <Truck className="h-8 w-8" />
+              <span className="font-mono text-xl font-bold">TruckTales</span>
+            </div>
+          </Link>
           <div className="flex-1 flex flex-col overflow-y-auto">
             <nav className="flex-1 px-2 py-4 space-y-1">
               {navigation.map((item) => (

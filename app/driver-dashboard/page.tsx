@@ -1,13 +1,31 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { DriverLayout } from "@/components/driver/DriverLayout";
 import { DriverStatusToggle } from "@/components/driver/DriverStatusToggle";
 import { RequestCard } from "@/components/driver/RequestCard";
 import { ActiveTripPanel } from "@/components/driver/ActiveTripPanel";
 import { QuickStats } from "@/components/driver/QuickStats";
-import { RealTimeLocation } from "@/components/driver/RealTimeLocation";
-import { Clock, Truck, Package, IndianRupee, LocateFixed } from "lucide-react";
+import {
+  MapPin,
+  Clock,
+  Truck,
+  Package,
+  IndianRupee,
+  LocateFixed,
+} from "lucide-react";
+import DriverMap, { DriverMapRef } from "@/components/DriverMap";
+
+interface RoadCondition {
+  id: string;
+  position: {
+    lat: number;
+    lng: number;
+  };
+  type: "accident" | "road_closure" | "bad_road" | "traffic";
+  timestamp: Date;
+  reportedBy: string;
+}
 
 // Mock data for available requests
 const mockRequests = [
@@ -52,17 +70,75 @@ const mockActiveTrip = {
 
 export default function DriverDashboardPage() {
   const [activeTab, setActiveTab] = useState<"requests" | "active">("requests");
-  const [, setStatus] = useState<"available" | "on_trip" | "offline">(
+  const [status, setStatus] = useState<"available" | "on_trip" | "offline">(
     "offline"
   );
+  const [activeView, setActiveView] = useState<
+    "current" | "nextStop" | "incidents" | "alerts"
+  >("current");
+  const [roadConditions, setRoadConditions] = useState<RoadCondition[]>([]);
+  const mapRef = useRef<DriverMapRef>(null);
 
-  const [currentLocation, setCurrentLocation] = useState<{
-    lat: number;
-    lng: number;
-    accuracy?: number;
-    timestamp?: number;
-  } | null>(null);
-  const mapRef = useRef<google.maps.Map | null>(null);
+  // Mock current location (in a real app, this would come from geolocation)
+  const [currentLocation, setCurrentLocation] = useState({
+    lat: 28.5355, // Noida coordinates
+    lng: 77.391,
+  });
+
+  // Mock next stop location
+  const [nextStopLocation] = useState({
+    lat: 28.6139, // Delhi coordinates
+    lng: 77.209,
+  });
+
+  const handleViewChange = useCallback(
+    (view: "current" | "nextStop" | "incidents" | "alerts") => {
+      setActiveView(view);
+
+      if (!mapRef.current) return;
+
+      switch (view) {
+        case "current":
+          mapRef.current.panTo(currentLocation);
+          mapRef.current.setZoom(15);
+          break;
+        case "nextStop":
+          mapRef.current.panTo(nextStopLocation);
+          mapRef.current.setZoom(15);
+          break;
+        case "incidents":
+          // Enable incident reporting mode
+          console.log("Incident reporting mode enabled");
+          break;
+        case "alerts":
+          // Show all alerts
+          console.log("Showing all alerts");
+          break;
+      }
+    },
+    [currentLocation, nextStopLocation]
+  );
+
+  const handleLocationUpdate = useCallback(
+    (location: { lat: number; lng: number }) => {
+      console.log("Location updated:", location);
+      setCurrentLocation(location);
+    },
+    []
+  );
+
+  const handleReportSubmit = useCallback(
+    (condition: Omit<RoadCondition, "id" | "timestamp" | "reportedBy">) => {
+      const newCondition = {
+        ...condition,
+        id: Date.now().toString(),
+        timestamp: new Date(),
+        reportedBy: "You",
+      };
+      setRoadConditions((prev) => [...prev, newCondition]);
+    },
+    []
+  );
 
   const handleAcceptRequest = (requestId: string) => {
     console.log("Accepted request:", requestId);
@@ -99,63 +175,75 @@ export default function DriverDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Map Section */}
           <div className="lg:col-span-2 bg-white rounded-lg shadow p-4">
-            <div className="h-96 rounded-lg overflow-hidden relative">
-              <RealTimeLocation
-                onLocationUpdate={(position) => {
-                  setCurrentLocation({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                    accuracy: position.coords.accuracy,
-                    timestamp: position.timestamp,
-                  });
-                }}
-                onMapLoad={(map) => {
-                  mapRef.current = map;
-                }}
+            <div className="h-96 rounded-lg overflow-hidden">
+              <DriverMap
+                ref={mapRef}
+                activeView={activeView}
+                onLocationClick={handleLocationUpdate}
+                currentLocation={currentLocation}
+                nextStopLocation={nextStopLocation}
+                onReportSubmit={handleReportSubmit}
+                roadConditions={roadConditions}
               />
-              {currentLocation && (
-                <div className="absolute bottom-4 left-4 bg-white p-3 rounded-lg shadow-md z-10">
-                  <div className="flex items-center space-x-2">
-                    <div className="p-1.5 bg-green-100 rounded-full">
-                      <LocateFixed className="h-4 w-4 text-green-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-gray-500">
-                        Your Location
-                      </p>
-                      <p className="text-sm font-mono">
-                        {currentLocation.lat.toFixed(6)},{" "}
-                        {currentLocation.lng.toFixed(6)}
-                      </p>
-                      {currentLocation.accuracy && (
-                        <p className="text-xs text-gray-400">
-                          ±{currentLocation.accuracy.toFixed(0)} meters accuracy
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Trip Info */}
             <div className="mt-4 grid grid-cols-2 gap-4">
-              <div className="bg-blue-50 p-4 rounded-lg">
+              <button
+                className={`p-4 rounded-lg text-left transition-colors ${
+                  activeView === "current"
+                    ? "bg-blue-100 border-2 border-blue-500"
+                    : "bg-gray-50 hover:bg-gray-100"
+                }`}
+                onClick={() => handleViewChange("current")}
+              >
                 <p className="text-sm text-gray-500">Current Location</p>
-                <p className="font-medium">Sector 18, Noida</p>
-              </div>
-              <div className="bg-green-50 p-4 rounded-lg">
+                <p className="font-medium text-gray-900 ">Sector 18, Noida</p>
+              </button>
+
+              <button
+                className={`p-4 rounded-lg text-left transition-colors ${
+                  activeView === "nextStop"
+                    ? "bg-green-100 border-2 border-green-500"
+                    : "bg-gray-50 hover:bg-gray-100"
+                }`}
+                onClick={() => handleViewChange("nextStop")}
+              >
                 <p className="text-sm text-gray-500">Next Stop</p>
-                <p className="font-medium">Connaught Place, Delhi</p>
-              </div>
-              <div className="bg-yellow-50 p-4 rounded-lg">
-                <p className="text-sm text-gray-500">Distance Remaining</p>
-                <p className="font-medium">18.5 km</p>
-              </div>
-              <div className="bg-purple-50 p-4 rounded-lg">
-                <p className="text-sm text-gray-500">Estimated Time</p>
-                <p className="font-medium">45 min</p>
-              </div>
+                <p className="font-medium text-gray-900 ">
+                  Connaught Place, Delhi
+                </p>
+              </button>
+
+              <button
+                className={`p-4 rounded-lg text-left transition-colors ${
+                  activeView === "incidents"
+                    ? "bg-yellow-100 border-2 border-yellow-500"
+                    : "bg-gray-50 hover:bg-gray-100"
+                }`}
+                onClick={() => handleViewChange("incidents")}
+              >
+                <p className="text-sm text-gray-500">Report Incident</p>
+                <p className="font-medium text-gray-900">
+                  Click on map to report
+                </p>
+              </button>
+
+              <button
+                className={`p-4 rounded-lg text-left transition-colors ${
+                  activeView === "alerts"
+                    ? "bg-red-100 border-2 border-red-500"
+                    : "bg-gray-50 hover:bg-gray-100"
+                }`}
+                onClick={() => handleViewChange("alerts")}
+              >
+                <p className="text-sm text-gray-500">Alerts</p>
+                <p className="font-medium text-gray-900">
+                  {roadConditions.length > 0
+                    ? `${roadConditions.length} active alerts`
+                    : "No active alerts"}
+                </p>
+              </button>
             </div>
           </div>
 
@@ -172,7 +260,7 @@ export default function DriverDashboardPage() {
                   </span>
                 </div>
 
-                <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                <div className="space-y-4 max-h-150 overflow-y-auto pr-2">
                   {mockRequests.map((request) => (
                     <RequestCard
                       key={request.id}
