@@ -142,9 +142,9 @@ export function MynaHero() {
                 className="cursor-pointer rounded-none mt-12 bg-[#FF6B2C] hover:bg-[#FF6B2C]/90 font-mono"
                 asChild
               >
-                <a href="/sign-up" className="text-white">
+                <Link href="/sign-up" className="text-white">
                   GET STARTED <ArrowRight className="ml-1 w-4 h-4 " />
-                </a>
+                </Link>
               </Button>
             </motion.div>
           </div>

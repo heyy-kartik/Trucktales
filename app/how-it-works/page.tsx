@@ -14,8 +14,8 @@ export default function HowItWorksPage(): JSX.Element {
           <li>Press the microphone button and talk naturally.</li>
           <li>Works even in noisy truck cabins.</li>
           <li>
-            Examples: &quot;What’s my next load?&quot; or &quot;Show nearest fuel
-            station.&quot;
+            Examples: &quot;What’s my next load?&quot; or &quot;Show nearest
+            fuel station.&quot;
           </li>
           <li>AI understands Hindi and English seamlessly.</li>
         </ul>
@@ -62,51 +62,53 @@ export default function HowItWorksPage(): JSX.Element {
 
       <main className="flex-1">
         <div className="container mx-auto px-4">
-        <section className="py-12 text-center">
-          <h1 className="text-4xl font-bold text-black mb-4">
-            How TruckTales Works
-          </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-xl text-foreground font-mono">
-            Discover how TruckTales makes logistics simple, fast, and efficient for drivers and fleet owners. Join thousands who trust us to save time, reduce costs, and stay connected.
-          </p>
-        </section>
+          <section className="py-12 text-center">
+            <h1 className="text-4xl font-bold text-black mb-4">
+              How TruckTales Works
+            </h1>
+            <p className="mx-auto mt-8 max-w-2xl text-xl text-foreground font-mono">
+              Discover how TruckTales makes logistics simple, fast, and
+              efficient for drivers and fleet owners. Join thousands who trust
+              us to save time, reduce costs, and stay connected.
+            </p>
+          </section>
 
-        <section className="py-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                onClick={() => setActiveIndex(index)}
-                className={`bg-white text-black rounded-xl border border-border shadow-md p-6 transition-all duration-300 cursor-pointer ${
-                  activeIndex === index
-                    ? "shadow-[0_0_25px_10px_rgba(255,107,44,0.8)] border-[#FF6B2C]"
-                    : "hover:shadow-[0_0_15px_5px_rgba(255,107,44,0.5)] hover:border-[#FF6B2C]"
-                }`}
-              >
-                <h3 className="text-xl font-semibold text-[#FF6B2C] mb-4">
-                  {step.title}
-                </h3>
-                {activeIndex === index && (
-                  <div className="text-black">
-                    {step.content}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
+          <section className="py-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {steps.map((step, index) => (
+                <div
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`bg-white text-black rounded-xl border border-border shadow-md p-6 transition-all duration-300 cursor-pointer ${
+                    activeIndex === index
+                      ? "shadow-[0_0_25px_10px_rgba(255,107,44,0.8)] border-[#FF6B2C]"
+                      : "hover:shadow-[0_0_15px_5px_rgba(255,107,44,0.5)] hover:border-[#FF6B2C]"
+                  }`}
+                >
+                  <h3 className="text-xl font-semibold text-[#FF6B2C] mb-4">
+                    {step.title}
+                  </h3>
+                  {activeIndex === index && (
+                    <div className="text-black">{step.content}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
 
-        <section className="py-12 text-center">
-          <h2 className="text-2xl font-bold text-black mb-4">
-            Trusted by Thousands of Drivers
-          </h2>
-          <p className="text-black text-lg max-w-2xl mx-auto mb-8">
-            Join a growing community of drivers and fleet owners who rely on TruckTales to streamline their operations and improve their bottom line.
-          </p>
-          <button className="px-6 py-3 bg-[#FF6B2C] text-white font-semibold rounded-lg shadow-md hover:shadow-[0_0_20px_5px_rgba(255,107,44,0.8)] hover:bg-[#FF6B2C]/90 transition">
-            Get Started with TruckTales
-          </button>
-        </section>
+          <section className="py-12 text-center">
+            <h2 className="text-2xl font-bold text-black mb-4">
+              Trusted by Thousands of Drivers
+            </h2>
+            <p className="text-black text-lg max-w-2xl mx-auto mb-8">
+              Join a growing community of drivers and fleet owners who rely on
+              TruckTales to streamline their operations and improve their bottom
+              line.
+            </p>
+            <button className="px-6 py-3 bg-[#FF6B2C] text-white font-semibold rounded-lg shadow-md hover:shadow-[0_0_20px_5px_rgba(255,107,44,0.8)] hover:bg-[#FF6B2C]/90 transition">
+              Get Started with TruckTales
+            </button>
+          </section>
         </div>
       </main>
     </div>
