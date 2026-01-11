@@ -1,7 +1,48 @@
 "use client";
 
-import { GoogleMap, Marker, DirectionsRenderer, useLoadScript } from "@react-google-maps/api";
-import { useEffect, useState, useRef } from "react";
+import { GoogleMap, Marker, DirectionsRenderer, useLoadScript, InfoWindow } from "@react-google-maps/api";
+import { useCallback, useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
+import { Fuel } from 'lucide-react';
+
+interface RoadCondition {
+  id: string;
+  position: google.maps.LatLngLiteral;
+  type: 'accident' | 'road_closure' | 'bad_road' | 'traffic';
+  timestamp: Date;
+  reportedBy: string;
+}
+
+export interface FuelStation {
+  id: string;
+  name: string;
+  address: string;
+  distance: string;
+  price: string;
+  hasParking: boolean;
+  hasRestroom: boolean;
+  hasRestaurant: boolean;
+  position: {
+    lat: number;
+    lng: number;
+  };
+}
+
+export interface DriverMapProps {
+  activeView?: 'current' | 'nextStop' | 'incidents' | 'alerts' | 'fuel';
+  onLocationClick?: (location: { lat: number; lng: number }) => void;
+  currentLocation?: { lat: number; lng: number };
+  nextStopLocation?: { lat: number; lng: number };
+  onReportSubmit?: (condition: Omit<RoadCondition, 'id' | 'timestamp' | 'reportedBy'>) => void;
+  roadConditions?: RoadCondition[];
+  fuelStations?: FuelStation[];
+  onStationSelect?: (station: FuelStation) => void;
+  selectedStation?: FuelStation | null;
+}
+
+export interface DriverMapRef {
+  panTo: (location: { lat: number; lng: number }) => void;
+  setZoom: (zoom: number) => void;
+}
 
 const containerStyle = {
   width: "100%",
@@ -13,27 +54,55 @@ const center = {
   lng: 77.209,
 };
 
-export default function DriverMap() {
+const DriverMap = forwardRef<DriverMapRef, DriverMapProps>(({ 
+  activeView = 'current',
+  onLocationClick,
+  currentLocation: propCurrentLocation,
+  nextStopLocation,
+  onReportSubmit,
+  roadConditions: propRoadConditions = [],
+  fuelStations = [],
+  onStationSelect,
+  selectedStation: propSelectedStation
+}, ref) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+    libraries: ['places']
   });
 
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
-  const [currentLocation, setCurrentLocation] = useState<google.maps.LatLngLiteral | null>(null);
-  const [roadConditions, setRoadConditions] = useState<Array<{
-    id: string;
-    position: google.maps.LatLngLiteral;
-    type: 'accident' | 'road_closure' | 'bad_road' | 'traffic';
-    timestamp: Date;
-    reportedBy: string;
-  }>>([]);
+  const [currentLocation, setCurrentLocation] = useState<google.maps.LatLngLiteral | null>(propCurrentLocation || null);
+  const [roadConditions, setRoadConditions] = useState<RoadCondition[]>(propRoadConditions);
   const [showReportDialog, setShowReportDialog] = useState(false);
   const [selectedCondition, setSelectedCondition] = useState<'accident' | 'road_closure' | 'bad_road' | 'traffic'>('bad_road');
-  const mapRef = useRef<google.maps.Map | null>(null);
+  const [selectedStation, setSelectedStation] = useState<FuelStation | null>(null);
+  const mapInstance = useRef<google.maps.Map | null>(null);
 
-  // Get current location
+  // Handle prop changes
   useEffect(() => {
-    if (navigator.geolocation) {
+    if (propSelectedStation) {
+      setSelectedStation(propSelectedStation);
+    }
+  }, [propSelectedStation]);
+
+  // Expose map methods via ref
+  useImperativeHandle(ref, () => ({
+    panTo: (location) => {
+      if (mapInstance.current) {
+        mapInstance.current.panTo(location);
+      }
+    },
+    setZoom: (zoom) => {
+      if (mapInstance.current) {
+        mapInstance.current.setZoom(zoom);
+      }
+    },
+    getMap: () => mapInstance.current
+  }));
+
+  // Get current location if not provided
+  useEffect(() => {
+    if (!propCurrentLocation && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const pos = {
@@ -46,10 +115,10 @@ export default function DriverMap() {
           console.error("Error: The Geolocation service failed.");
         }
       );
-    } else {
-      console.error("Error: Your browser doesn't support geolocation.");
+    } else if (propCurrentLocation) {
+      setCurrentLocation(propCurrentLocation);
     }
-  }, []);
+  }, [propCurrentLocation]);
 
   // Load sample directions
   useEffect(() => {
@@ -71,29 +140,52 @@ export default function DriverMap() {
     );
   }, [isLoaded, currentLocation]);
 
-  const handleMapClick = (e: google.maps.MapMouseEvent) => {
-    if (e.latLng) {
+  const handleMapClick = useCallback((e: google.maps.MapMouseEvent) => {
+    if (!e.latLng) return;
+    
+    const position = {
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng()
+    };
+
+    if (onLocationClick) {
+      onLocationClick(position);
+    }
+
+    if (activeView === 'incidents') {
       setShowReportDialog(true);
     }
-  };
+    
+    // Clear selected station when clicking on the map
+    if (activeView === 'fuel' && selectedStation) {
+      setSelectedStation(null);
+    }
+  }, [activeView, onLocationClick, selectedStation]);
+  
+  const handleStationClick = useCallback((station: FuelStation, e: google.maps.MapMouseEvent) => {
+    e.stop();
+    setSelectedStation(station);
+    if (onStationSelect) {
+      onStationSelect(station);
+    }
+    
+    if (mapInstance.current) {
+      mapInstance.current.panTo(station.position);
+    }
+  }, [onStationSelect]);
 
-  const handleReportCondition = () => {
-    if (!currentLocation) return;
+  const handleReportCondition = useCallback(() => {
+    if (!currentLocation || !onReportSubmit) return;
     
     const newCondition = {
-      id: Date.now().toString(),
       position: currentLocation,
       type: selectedCondition,
-      timestamp: new Date(),
       reportedBy: 'You',
     };
 
-    setRoadConditions(prev => [...prev, newCondition]);
+    onReportSubmit(newCondition);
     setShowReportDialog(false);
-    
-    // In a real app, you would send this to your backend
-    console.log('Reported condition:', newCondition);
-  };
+  }, [currentLocation, selectedCondition, onReportSubmit]);
 
   const getConditionIcon = (type: string) => {
     switch (type) {
@@ -120,7 +212,7 @@ export default function DriverMap() {
         zoom={15}
         onClick={handleMapClick}
         onLoad={(map) => {
-          mapRef.current = map;
+          mapInstance.current = map;
         }}
       >
         {currentLocation && (
@@ -136,7 +228,7 @@ export default function DriverMap() {
         {/* Show road conditions */}
         {roadConditions.map((condition) => (
           <Marker
-            key={condition.id}
+            key={`condition-${condition.id}`}
             position={condition.position}
             label={{
               text: getConditionIcon(condition.type),
@@ -144,6 +236,49 @@ export default function DriverMap() {
             }}
             title={`${condition.type.replace('_', ' ')} - Reported by ${condition.reportedBy}`}
           />
+        ))}
+        
+        {/* Show fuel stations */}
+        {activeView === 'fuel' && fuelStations?.map((station: FuelStation) => (
+          <Marker
+            key={`station-${station.id}`}
+            position={station.position}
+            icon={{
+              url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
+                `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${selectedStation?.id === station.id ? '#2563eb' : '#f59e0b'}" width="32" height="32">
+                  <path d="M18 10a1 1 0 0 1 1 1v7h1a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2h1v-7a1 1 0 0 1 1-1h12zM8 12v5h8v-5H8zm-1-6h10l1 2H6l1-2z" />
+                </svg>`
+              )}`,
+              scaledSize: new window.google.maps.Size(32, 32),
+              anchor: new window.google.maps.Point(16, 16)
+            }}
+            onClick={(e) => handleStationClick(station, e)}
+          >
+            {(selectedStation?.id === station.id) && (
+              <InfoWindow
+                position={station.position}
+                onCloseClick={() => setSelectedStation(null)}
+              >
+                <div className="p-2">
+                  <h4 className="font-medium">{station.name}</h4>
+                  <p className="text-sm text-gray-600">{station.address}</p>
+                  <p className="text-sm font-medium text-yellow-600 mt-1">{station.price}</p>
+                  <div className="flex mt-1 space-x-1">
+                    {station.hasParking && (
+                      <span className="text-xs bg-green-100 text-green-800 px-1.5 py-0.5 rounded">
+                        Parking
+                      </span>
+                    )}
+                    {station.hasRestroom && (
+                      <span className="text-xs bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded">
+                        Restroom
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </InfoWindow>
+            )}
+          </Marker>
         ))}
       </GoogleMap>
 
@@ -179,7 +314,7 @@ export default function DriverMap() {
       )}
 
       {/* Road Conditions List */}
-      {roadConditions.length > 0 && (
+      {(roadConditions.length > 0 && activeView === 'alerts') && (
         <div className="absolute bottom-4 text-gray-800 left-4 bg-white p-4 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
           <h3 className="font-bold mb-2">Road Conditions</h3>
           <div className="space-y-2">
@@ -199,4 +334,6 @@ export default function DriverMap() {
       )}
     </div>
   );
-}
+});
+
+export default DriverMap;
