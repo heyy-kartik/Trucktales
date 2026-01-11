@@ -1,20 +1,8 @@
 "use client";
 
-import {
-  GoogleMap,
-  Marker,
-  DirectionsRenderer,
-  useLoadScript,
-  InfoWindow,
-} from "@react-google-maps/api";
-import {
-  useCallback,
-  useEffect,
-  useState,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import { GoogleMap, Marker, DirectionsRenderer, useLoadScript, InfoWindow } from "@react-google-maps/api";
+import { useCallback, useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
+import { Fuel } from 'lucide-react';
 
 interface RoadCondition {
   id: string;
@@ -68,25 +56,21 @@ const center = {
   lng: 77.209,
 };
 
-const DriverMap = forwardRef<DriverMapRef, DriverMapProps>(
-  (
-    {
-      activeView = "current",
-      onLocationClick,
-      currentLocation: propCurrentLocation,
-      nextStopLocation,
-      onReportSubmit,
-      roadConditions: propRoadConditions = [],
-      fuelStations = [],
-      onStationSelect,
-      selectedStation: propSelectedStation,
-    },
-    ref
-  ) => {
-    const { isLoaded } = useLoadScript({
-      googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-      libraries: ["places"],
-    });
+const DriverMap = forwardRef<DriverMapRef, DriverMapProps>(({ 
+  activeView = 'current',
+  onLocationClick,
+  currentLocation: propCurrentLocation,
+  nextStopLocation,
+  onReportSubmit,
+  roadConditions: propRoadConditions = [],
+  fuelStations = [],
+  onStationSelect,
+  selectedStation: propSelectedStation
+}, ref) => {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+    libraries: ['places']
+  });
 
     const [directions, setDirections] =
       useState<google.maps.DirectionsResult | null>(null);
