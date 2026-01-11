@@ -1,19 +1,12 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import { DriverLayout } from "@/components/driver/DriverLayout";
 import { DriverStatusToggle } from "@/components/driver/DriverStatusToggle";
 import { RequestCard } from "@/components/driver/RequestCard";
 import { ActiveTripPanel } from "@/components/driver/ActiveTripPanel";
 import { QuickStats } from "@/components/driver/QuickStats";
-import {
-  MapPin,
-  Clock,
-  Truck,
-  Package,
-  IndianRupee,
-  LocateFixed,
-} from "lucide-react";
+import { Clock, Truck, Package, IndianRupee } from "lucide-react";
 import DriverMap, { DriverMapRef } from "@/components/DriverMap";
 
 interface RoadCondition {
@@ -70,7 +63,7 @@ const mockActiveTrip = {
 
 export default function DriverDashboardPage() {
   const [activeTab, setActiveTab] = useState<"requests" | "active">("requests");
-  const [status, setStatus] = useState<"available" | "on_trip" | "offline">(
+  const [, setStatus] = useState<"available" | "on_trip" | "offline">(
     "offline"
   );
   const [activeView, setActiveView] = useState<
