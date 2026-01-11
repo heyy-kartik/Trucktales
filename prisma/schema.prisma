@@ -17,9 +17,161 @@ model User {
   clerkId   String   @unique
   role      Role?
   createdAt DateTime @default(now())
+
+  // Relations
+  podsAsDriver  ProofOfDelivery[] @relation("DriverPODs")
+  podsAsShipper ProofOfDelivery[] @relation("ShipperPODs")
+  shipments     Shipment[]
 }
 
 enum Role {
   SHIPPER
   DRIVER
+  ADMIN
+}
+
+// Shipment model for tracking deliveries
+model Shipment {
+  id              String         @id @default(cuid())
+  shipmentNumber  String         @unique
+  origin          String
+  destination     String
+  distance        Float?
+  weight          Float?
+  loadType        String?
+  status          ShipmentStatus @default(PENDING)
+  estimatedAmount Float
+  finalAmount     Float?
+
+  // Driver assignment
+  driverId String?
+  driver   User?   @relation(fields: [driverId], references: [id])
+
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  pickupAt    DateTime?
+  deliveredAt DateTime?
+
+  // Relations
+  pod ProofOfDelivery?
+}
+
+enum ShipmentStatus {
+  PENDING
+  ASSIGNED
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
+}
+
+// Proof of Delivery model
+model ProofOfDelivery {
+  id String @id @default(cuid())
+
+  // Shipment relation
+  shipmentId String   @unique
+  shipment   Shipment @relation(fields: [shipmentId], references: [id])
+
+  // Driver who delivered
+  driverId String
+  driver   User   @relation("DriverPODs", fields: [driverId], references: [id])
+
+  // Shipper who owns the shipment
+  shipperId String
+  shipper   User   @relation("ShipperPODs", fields: [shipperId], references: [id])
+
+  // POD Image & Verification
+  imageUrl  String // Original image URL (stored in cloud)
+  imageHash String? // SHA-256 hash of the image
+  ipfsHash  String? // IPFS CID for decentralized storage
+
+  // AI Verification
+  signatureDetected   Boolean @default(false)
+  signatureConfidence Float? // 0-1 confidence score
+  aiVerificationData  Json? // Full AI response data
+
+  // Blockchain
+  blockchainTxHash String? // Polygon transaction hash
+  blockchainStatus BlockchainStatus @default(PENDING)
+  contractAddress  String?
+  tokenId          String?
+
+  // Recipient info captured
+  recipientName  String?
+  recipientPhone String?
+  deliveryNotes  String?
+
+  // Geo-location at delivery
+  latitude        Float?
+  longitude       Float?
+  deliveryAddress String?
+
+  // Status
+  verificationStatus VerificationStatus @default(PENDING)
+
+  // Payment
+  payment Payment?
+
+  // Timestamps
+  capturedAt DateTime  @default(now())
+  verifiedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+enum VerificationStatus {
+  PENDING
+  AI_VERIFIED
+  BLOCKCHAIN_VERIFIED
+  FULLY_VERIFIED
+  REJECTED
+  DISPUTED
+}
+
+enum BlockchainStatus {
+  PENDING
+  SUBMITTED
+  CONFIRMED
+  FAILED
+}
+
+// Payment model for POD-triggered payments
+model Payment {
+  id String @id @default(cuid())
+
+  // POD relation
+  podId String          @unique
+  pod   ProofOfDelivery @relation(fields: [podId], references: [id])
+
+  // Amount details
+  baseAmount    Float
+  distanceBonus Float?
+  penalties     Float?
+  finalAmount   Float
+
+  // UPI/Payment details
+  upiId            String?
+  razorpayPayoutId String?
+  razorpayStatus   String?
+
+  // Status
+  status PaymentStatus @default(PENDING)
+
+  // Timestamps
+  initiatedAt   DateTime  @default(now())
+  completedAt   DateTime?
+  failedAt      DateTime?
+  failureReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REVERSED
 }
