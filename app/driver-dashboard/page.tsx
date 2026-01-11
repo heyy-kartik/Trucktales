@@ -7,7 +7,18 @@ import { RequestCard } from '@/components/driver/RequestCard';
 import { ActiveTripPanel } from '@/components/driver/ActiveTripPanel';
 import { QuickStats } from '@/components/driver/QuickStats';
 import { MapPin, Clock, Truck, Package, IndianRupee, LocateFixed } from 'lucide-react';
-import DriverMap from '@/components/DriverMap';
+import DriverMap, { DriverMapRef } from '@/components/DriverMap';
+
+interface RoadCondition {
+  id: string;
+  position: {
+    lat: number;
+    lng: number;
+  };
+  type: 'accident' | 'road_closure' | 'bad_road' | 'traffic';
+  timestamp: Date;
+  reportedBy: string;
+}
 
 // Mock data for available requests
 const mockRequests = [
@@ -125,29 +136,11 @@ export default function DriverDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
-      <NavigationBar />
-
-      {/* Page header */}
-      <header className="border-b bg-white dark:bg-slate-900">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              Highway Monitoring
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Real-time incidents & fleet tracking
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="text-xs px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400 font-medium">
-              Live
-            </div>
-            <ClerkLoaded>
-              <UserButton afterSignOutUrl="/" />
-            </ClerkLoaded>
-          </div>
+    <DriverLayout>
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-900">Driver Dashboard</h1>
+          <DriverStatusToggle />
         </div>
 
         {/* Quick Stats */}
@@ -155,11 +148,9 @@ export default function DriverDashboardPage() {
           todaysTrips={3}
           todaysEarnings={4200}
           completedTrips={127}
-          />
-        </header>
-  
-        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Map Section */}
           <div className="lg:col-span-2 bg-white rounded-lg shadow p-4">
             <div className="h-96 rounded-lg overflow-hidden">
@@ -292,7 +283,7 @@ export default function DriverDashboardPage() {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </DriverLayout>
   );
 }
