@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
-import { DriverLayout } from "@/components/driver/DriverLayout";
-import { DriverStatusToggle } from "@/components/driver/DriverStatusToggle";
-import { RequestCard } from "@/components/driver/RequestCard";
-import { ActiveTripPanel } from "@/components/driver/ActiveTripPanel";
-import { QuickStats } from "@/components/driver/QuickStats";
-import { Clock, Truck, Package, IndianRupee } from "lucide-react";
-import DriverMap, { DriverMapRef } from "@/components/DriverMap";
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { DriverLayout } from '@/components/driver/DriverLayout';
+import { DriverStatusToggle } from '@/components/driver/DriverStatusToggle';
+import { RequestCard } from '@/components/driver/RequestCard';
+import { ActiveTripPanel } from '@/components/driver/ActiveTripPanel';
+import { QuickStats } from '@/components/driver/QuickStats';
+import { MapPin, Clock, Truck, Package, IndianRupee, LocateFixed } from 'lucide-react';
+import DriverMap, { DriverMapRef } from '@/components/DriverMap';
 
 interface RoadCondition {
   id: string;
@@ -74,8 +74,8 @@ export default function DriverDashboardPage() {
 
   // Mock current location (in a real app, this would come from geolocation)
   const [currentLocation, setCurrentLocation] = useState({
-    lat: 28.5355, // Noida coordinates
-    lng: 77.391,
+    lat: 28.5355,  // Noida coordinates
+    lng: 77.3910
   });
 
   // Mock next stop location
