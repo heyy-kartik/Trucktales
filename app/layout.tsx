@@ -5,8 +5,11 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "XYS - Highway Monitoring System",
+  title: "TruckTales - Highway Monitoring System",
   description: "Real-time highway monitoring and truck tracking system",
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({
