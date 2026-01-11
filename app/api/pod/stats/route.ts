@@ -5,11 +5,10 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const period = searchParams.get("period") || "7d"; // 7d, 30d, 90d, 1y
-    const groupBy = searchParams.get("groupBy") || "day"; // day, week, month
 
     // Calculate date range
     const now = new Date();
-    let startDate = new Date();
+    const startDate = new Date();
 
     switch (period) {
       case "7d":

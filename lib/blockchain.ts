@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import { createHash } from "crypto";
 
 // POD Registry Contract ABI
 export const POD_REGISTRY_ABI = [
@@ -116,7 +117,6 @@ export async function verifyTransaction(
 
 // Calculate image hash from buffer
 export function calculateImageHash(buffer: Buffer): string {
-  const { createHash } = require("crypto");
   return createHash("sha256").update(buffer).digest("hex");
 }
 
