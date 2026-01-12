@@ -13,6 +13,7 @@ const navigationItems = [
   { id: "how-it-works", title: "HOW IT WORKS", href: "/how-it-works" },
   { id: "for-drivers", title: "FOR DRIVERS", href: "/for-drivers" },
   { id: "for-fleets", title: "FOR FLEETS", href: "/for-fleets" },
+  { id: "live-map", title: "LIVE MAP", href: "/live-map" },
   { id: "pod", title: "POD", href: "/pod" },
 ];
 
@@ -21,8 +22,8 @@ export function NavigationBar(): React.ReactElement {
     <header className="sticky top-0 z-50 bg-background shadow-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
-          <Truck className="h-8 w-8 hover:bg-amber-50 bg-amber-50" />
-          <span className="font-mono text-xl font-bold text-black">
+          <Truck className="h-8 w-8 hover:bg-orange-300 bg-amber-50 dark:text-black transition-colors" />
+          <span className="font-mono text-xl font-bold text-black hover:text-[#D35400] dark:text-[#FF6B2C] transition-colors">
             TruckTales
           </span>
         </Link>
