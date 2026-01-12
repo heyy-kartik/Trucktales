@@ -1,1 +1,5 @@
-Next.js page with Mapbox GL. Show all trucks with custom markers, cluster when zoomed out. On marker click: show driver photo, latest tale, route line, ETA. Voice tales appear as animated popups on map. Use Convex subscriptions for real-time updates. Add heatmap layer for congestion zones. Filter by shipper/status/time range.
+Next.js page with Mapbox GL. Show all trucks with custom markers, cluster when zoomed out.
+ On marker click: show driver photo, latest tale, route line, ETA.
+  Voice tales appear as animated popups on map.
+   Use Convex subscriptions for real-time updates.
+    Add heatmap layer for congestion zones. Filter by shipper/status/time range.
